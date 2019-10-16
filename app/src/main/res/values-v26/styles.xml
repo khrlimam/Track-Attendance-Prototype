@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Headline1.Info" parent="TextAppearance.MaterialComponents.Headline1">
+        <item name="android:textColor">@color/textInfo</item>
+        <item name="android:textSize">40sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontWeight">29</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+</resources>

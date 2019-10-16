@@ -1,0 +1,102 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="android:statusBarColor">@color/colorBackground</item>
+        <item name="android:textColorPrimary">@android:color/black</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:colorBackground">@color/colorBackground</item>
+    </style>
+
+    <style name="Info">
+        <item name="android:textColor">@color/textInfo</item>
+    </style>
+
+    <style name="CapsText.CardMenu" parent="CapsText">
+        <item name="android:textAlignment">center</item>
+        <item name="android:fontFamily">sans-serif-black</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="BottomNavigation.TabLayout" parent="Widget.MaterialComponents.TabLayout.Colored">
+        <item name="tabTextAppearance">@style/CapsText.BottomMenu</item>
+        <item name="tabTextColor">@color/textInfo</item>
+        <item name="tabIndicatorColor">@color/colorAccent</item>
+        <item name="android:fontFamily">sans-serif-thin</item>
+        <item name="tabIndicatorGravity">top</item>
+        <item name="tabIndicatorFullWidth">false</item>
+        <item name="tabIndicatorHeight">3dp</item>
+        <item name="tabIconTint">@color/textInfo</item>
+    </style>
+
+    <style name="Headline3.Info" parent="TextAppearance.MaterialComponents.Headline3">
+        <item name="android:textColor">@color/textInfo</item>
+        <item name="android:textSize">33sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="fontFamily">sans-serif-black</item>
+    </style>
+
+    <style name="RoundedGrey">
+        <item name="android:background">@drawable/grey_rounded</item>
+    </style>
+
+    <style name="RoundedGrey.EditText" parent="RoundedGrey">
+        <item name="android:textColorHint">@color/greyDarker</item>
+        <item name="android:paddingStart">20dp</item>
+        <item name="android:paddingEnd">20dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+    </style>
+
+    <style name="Headline3.PageTitle" parent="TextAppearance.MaterialComponents.Headline3">
+        <item name="fontFamily">sans-serif-black</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">30sp</item>
+    </style>
+
+    <style name="Subtitle.Info" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="android:textColor">@color/textInfo</item>
+        <item name="android:textSize">14sp</item>
+        <item name="fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="CapsText" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+    <style name="CapsText.BottomMenu" parent="CapsText">
+        <item name="android:textSize">10sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="Round.Button" parent="Widget.MaterialComponents.Button">
+        <item name="cornerRadius">25dp</item>
+        <item name="elevation">10dp</item>
+        <item name="android:elevation">10dp</item>
+        <item name="android:padding">15dp</item>
+    </style>
+
+    <style name="Round.Button.Success" parent="Round.Button">
+        <item name="backgroundTint">@color/successColor</item>
+    </style>
+
+    <style name="Round.Button.Primary" parent="Round.Button">
+        <item name="backgroundTint">@color/primaryColor</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+</resources>

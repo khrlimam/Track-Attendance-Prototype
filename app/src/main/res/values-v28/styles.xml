@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Subtitle.Info" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="android:textColor">@color/textInfo</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:lineHeight">3mm</item>
+        <item name="fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="Round.Button.Success" parent="Round.Button">
+        <item name="backgroundTint">@color/successColor</item>
+        <item name="android:outlineSpotShadowColor">@color/successColor</item>
+        <item name="android:outlineAmbientShadowColor">@color/successColor</item>
+    </style>
+
+    <style name="Round.Button.Primary" parent="Round.Button">
+        <item name="backgroundTint">@color/primaryColor</item>
+        <item name="android:outlineSpotShadowColor">@color/primaryColor</item>
+        <item name="android:outlineAmbientShadowColor">@color/primaryColor</item>
+    </style>
+</resources>
