@@ -30,6 +30,7 @@
         <item name="tabIndicatorGravity">top</item>
         <item name="tabIndicatorFullWidth">false</item>
         <item name="tabIndicatorHeight">3dp</item>
+        <item name="tabIndicatorAnimationDuration">300</item>
         <item name="tabIconTint">@color/textInfo</item>
     </style>
 

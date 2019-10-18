@@ -11,6 +11,10 @@
     <string name="tab_text_2">Tab 2</string>
     <string name="reminder">Reminder</string>
     <string name="search">Search</string>
+    <!--    auth0-->
+    <string name="com_auth0_client_id">zAwDC6qIZvc03CXOsrOahkToJKUxwxbN</string>
+    <string name="com_auth0_domain">mantap.au.auth0.com</string>
+
 
     <string name="large_text">
         "Material is the metaphor.\n\n"

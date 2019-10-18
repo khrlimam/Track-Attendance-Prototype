@@ -36,6 +36,7 @@
             app:layout_collapseMode="pin">
 
             <TextView
+                android:id="@+id/tvPageTitle"
                 style="@style/Headline3.PageTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -60,6 +61,7 @@
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
 
     <com.google.android.material.tabs.TabLayout
+        android:id="@+id/bottomTabMenu"
         style="@style/BottomNavigation.TabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -67,30 +69,35 @@
         android:background="@drawable/border_top">
 
         <com.google.android.material.tabs.TabItem
+            android:id="@+id/tabServices"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:icon="@drawable/service_menu_icon"
             android:text="@string/services" />
 
         <com.google.android.material.tabs.TabItem
+            android:id="@+id/tabHome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:icon="@drawable/service_normal"
             android:text="@string/home" />
 
         <com.google.android.material.tabs.TabItem
+            android:id="@+id/tabFeeds"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:icon="@drawable/service_normal"
             android:text="@string/feeds" />
 
         <com.google.android.material.tabs.TabItem
+            android:id="@+id/tabApproval"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:icon="@drawable/service_normal"
             android:text="@string/approvals" />
 
         <com.google.android.material.tabs.TabItem
+            android:id="@+id/tabMore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:icon="@drawable/service_normal"
