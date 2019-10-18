@@ -115,7 +115,7 @@
     <string name="presentations">Presentation</string>
     <string name="flight">Flight</string>
     <string name="feeds">Feeds</string>
-    <string name="approvals">Approvals</string>
+    <string name="approvals">My Approvals</string>
     <string name="more">More</string>
 
     <string-array name="service_menus">

@@ -78,8 +78,8 @@
 
     <style name="Round.Button" parent="Widget.MaterialComponents.Button">
         <item name="cornerRadius">25dp</item>
-        <item name="elevation">10dp</item>
-        <item name="android:elevation">10dp</item>
+        <item name="elevation">8dp</item>
+        <item name="android:elevation">8dp</item>
         <item name="android:padding">15dp</item>
     </style>
 
