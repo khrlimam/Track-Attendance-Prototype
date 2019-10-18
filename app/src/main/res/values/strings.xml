@@ -117,6 +117,7 @@
     <string name="feeds">Feeds</string>
     <string name="approvals">My Approvals</string>
     <string name="more">More</string>
+    <string name="about">About</string>
 
     <string-array name="service_menus">
         <item>@string/leave_tracker</item>

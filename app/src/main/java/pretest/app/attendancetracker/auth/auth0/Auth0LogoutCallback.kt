@@ -6,16 +6,16 @@ import com.auth0.android.Auth0Exception
 import com.auth0.android.provider.VoidCallback
 import pretest.app.attendancetracker.Login
 
-class Auth0LogoutCallback(private val activity: Activity, val onLogout: () -> Unit) : VoidCallback {
-    override fun onSuccess(payload: Void?) {
-        onLogout()
-        with(activity) {
-            startActivity(Intent(activity, Login::class.java))
-            finish()
-        }
+class Auth0LogoutCallback(private val activity: Activity) : VoidCallback {
+  override fun onSuccess(payload: Void?) {
+    with(activity) {
+      startActivity(Intent(activity, Login::class.java))
+      finish()
     }
+  }
 
-    override fun onFailure(error: Auth0Exception?) {
-
-    }
+  /**
+   *  if logout process errors dont do anything. just let it be
+   */
+  override fun onFailure(error: Auth0Exception?) {}
 }

@@ -1,7 +1,6 @@
 package pretest.app.attendancetracker.auth.auth0
 
 import android.app.Activity
-import android.app.Dialog
 import com.auth0.android.Auth0
 import com.auth0.android.authentication.AuthenticationAPIClient
 import com.auth0.android.authentication.AuthenticationException
@@ -11,14 +10,13 @@ import com.auth0.android.authentication.storage.SharedPreferencesStorage
 import com.auth0.android.callback.BaseCallback
 import com.auth0.android.management.ManagementException
 import com.auth0.android.management.UsersAPIClient
-import com.auth0.android.provider.AuthCallback
 import com.auth0.android.provider.WebAuthProvider
 import com.auth0.android.result.Credentials
 import com.auth0.android.result.UserProfile
 import pretest.app.attendancetracker.Statics
 import pretest.app.attendancetracker.contracts.AuthenticationProvider
-import pretest.app.attendancetracker.contracts.HandleAuth0LoginRespone
-import pretest.app.attendancetracker.contracts.HandleAuth0LogoutRequest
+import pretest.app.attendancetracker.contracts.LoginResult
+import pretest.app.attendancetracker.contracts.LogoutResult
 import pretest.app.attendancetracker.models.Credential
 import pretest.app.attendancetracker.models.ProfileInfo
 import kotlin.coroutines.resume
@@ -26,129 +24,125 @@ import kotlin.coroutines.suspendCoroutine
 
 
 class Auth0AuthenticationProvider(
-    private val activity: Activity,
-    private val loginResponseHandler: HandleAuth0LoginRespone? = null,
-    private val logoutRequestHandler: HandleAuth0LogoutRequest? = null
-) : AuthenticationProvider, AuthCallback {
+  private val activity: Activity
+) : AuthenticationProvider {
 
-    private val mAuth0: Auth0 = Auth0(activity.applicationContext)
-    private val authenticationAPIClient = AuthenticationAPIClient(mAuth0)
+  private val mAuth0: Auth0 = Auth0(activity.applicationContext)
+  private val authenticationAPIClient = AuthenticationAPIClient(mAuth0)
 
-    private val credentialsManager = SecureCredentialsManager(
-        activity,
-        AuthenticationAPIClient(mAuth0),
-        SharedPreferencesStorage(activity.applicationContext)
-    )
+  private val credentialsManager = SecureCredentialsManager(
+    activity,
+    AuthenticationAPIClient(mAuth0),
+    SharedPreferencesStorage(activity.applicationContext)
+  )
 
-    init {
-        mAuth0.isOIDCConformant = true
-    }
+  init {
+    mAuth0.isOIDCConformant = true
+  }
 
-    private fun getUserClient(accessToken: String): UsersAPIClient {
-        return UsersAPIClient(mAuth0, accessToken)
-    }
+  private fun getUserClient(accessToken: String): UsersAPIClient {
+    return UsersAPIClient(mAuth0, accessToken)
+  }
 
-    private fun saveCredentials(credentials: Credentials) {
-        credentialsManager.saveCredentials(credentials)
-    }
+  private fun saveCredentials(credentials: Credentials) {
+    credentialsManager.saveCredentials(credentials)
+  }
 
-    override fun isValidCredential(): Boolean {
-        return credentialsManager.hasValidCredentials()
-    }
+  override suspend fun isValidCredential(): Boolean = suspendCoroutine {
+    it.resume(credentialsManager.hasValidCredentials())
+  }
 
-    override fun login() {
-        WebAuthProvider.login(mAuth0)
-            .withScheme("demo")
-            .withScope("openid profile email offline_access read:current_user update:current_user_metadata")
-            .withAudience("https://${Statics.AUTH0_DOMAIN}/api/v2/")
-            .start(activity, this)
-    }
-
-    override fun logout() {
-        //if logoutRequestHandler is null force clear credentials
-        logoutRequestHandler?.apply {
-            doLogout(mAuth0) {
-                credentialsManager.clearCredentials()
-            }
-        } ?: credentialsManager.clearCredentials()
-    }
-
-    override suspend fun getCredential(): Credential? {
-        return suspendCoroutine { continuation ->
-            credentialsManager.getCredentials(object :
-                BaseCallback<Credentials, CredentialsManagerException> {
-                override fun onSuccess(payload: Credentials?) {
-                    payload?.apply {
-                        continuation.resume(
-                            Credential(
-                                accessToken,
-                                type,
-                                idToken,
-                                refreshToken,
-                                expiresIn,
-                                scope,
-                                expiresAt
-                            )
-                        )
-                    }
-                }
-
-                override fun onFailure(error: CredentialsManagerException?) {
-                    continuation.resume(null)
-                }
+  override suspend fun login(): LoginResult =
+    suspendCoroutine<Auth0LoginResult> { continue_ ->
+      WebAuthProvider.login(mAuth0)
+        .withScheme("demo")
+        .withScope("openid profile email offline_access read:current_user update:current_user_metadata")
+        .withAudience("https://${Statics.AUTH0_DOMAIN}/api/v2/")
+        .start(
+          activity, Auth0LoginCallback(
+            {
+              saveCredentials(it)
+              continue_.resume(Auth0LoginResult.Auth0LoginSucceed(it))
+            },
+            {
+              continue_.resume(Auth0LoginResult.Auth0PermissionNotGranted(it))
+            },
+            {
+              continue_.resume(Auth0LoginResult.Auth0LoginFailed(it))
             })
+        )
+    }
+
+
+  /**
+   * if logoutRequestHandler is null force clear credentials
+   */
+  override suspend fun logout(): LogoutResult =
+    suspendCoroutine { continue_ ->
+      credentialsManager.clearCredentials()
+      continue_.resume(Auth0LogoutResult.Auth0LogoutSuccess(mAuth0))
+    }
+
+
+  override suspend fun getCredential(): Credential? = suspendCoroutine { continuation ->
+    credentialsManager.getCredentials(object :
+      BaseCallback<Credentials, CredentialsManagerException> {
+      override fun onSuccess(payload: Credentials?) {
+        payload?.apply {
+          continuation.resume(
+            Credential(
+              accessToken,
+              type,
+              idToken,
+              refreshToken,
+              expiresIn,
+              scope,
+              expiresAt
+            )
+          )
         }
+      }
+
+      override fun onFailure(error: CredentialsManagerException?) {
+        continuation.resume(null)
+      }
+    })
+  }
+
+  override suspend fun getProfile(): ProfileInfo? {
+    val accessToken = getCredential()?.accessToken ?: return null
+    val userClient = getUserClient(accessToken)
+    return suspendCoroutine { continuation ->
+      authenticationAPIClient.userInfo(accessToken)
+        .start(object : BaseCallback<UserProfile, AuthenticationException> {
+          override fun onSuccess(userinfo: UserProfile) {
+            userClient
+              .getProfile(userinfo.id)
+              .start(object : BaseCallback<UserProfile, ManagementException> {
+
+                override fun onSuccess(profile: UserProfile) {
+                  continuation.resume(
+                    ProfileInfo(
+                      profile.id,
+                      profile.name,
+                      profile.nickname,
+                      profile.pictureURL,
+                      profile.email,
+                      profile.identities.filterNotNull().first().provider
+                    )
+                  )
+                }
+
+                override fun onFailure(error: ManagementException) {
+                  continuation.resume(null)
+                }
+              })
+          }
+
+          override fun onFailure(error: AuthenticationException) {
+            continuation.resume(null)
+          }
+        })
     }
-
-    override suspend fun getProfile(): ProfileInfo? {
-        val accessToken = getCredential()?.accessToken ?: return null
-        val userClient = getUserClient(accessToken)
-        return suspendCoroutine { continuation ->
-            authenticationAPIClient.userInfo(accessToken)
-                .start(object : BaseCallback<UserProfile, AuthenticationException> {
-                    override fun onSuccess(userinfo: UserProfile) {
-                        userClient
-                            .getProfile(userinfo.id)
-                            .start(object : BaseCallback<UserProfile, ManagementException> {
-
-                                override fun onSuccess(profile: UserProfile) {
-                                    continuation.resume(
-                                        ProfileInfo(
-                                            profile.id,
-                                            profile.name,
-                                            profile.nickname,
-                                            profile.pictureURL,
-                                            profile.email,
-                                            profile.identities[0].provider
-                                        )
-                                    )
-                                }
-
-                                override fun onFailure(error: ManagementException) {
-                                    continuation.resume(null)
-                                }
-                            })
-                    }
-
-                    override fun onFailure(error: AuthenticationException) {
-                        continuation.resume(null)
-                    }
-                })
-        }
-    }
-
-    override fun onFailure(dialog: Dialog) {
-        activity.runOnUiThread {
-            dialog.show()
-        }
-    }
-
-    override fun onFailure(exception: AuthenticationException) {
-        loginResponseHandler?.onLoginFailed(exception)
-    }
-
-    override fun onSuccess(credentials: Credentials) {
-        saveCredentials(credentials)
-        loginResponseHandler?.onLoginSucceed(credentials)
-    }
+  }
 }

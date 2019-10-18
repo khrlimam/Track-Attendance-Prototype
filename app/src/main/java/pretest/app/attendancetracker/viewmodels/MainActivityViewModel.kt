@@ -7,15 +7,15 @@ import pretest.app.attendancetracker.models.MainActivityNavigationState
 
 class MainActivityViewModel() : ViewModel() {
 
-    constructor(savedStateHandle: SavedStateHandle) : this()
+  constructor(savedStateHandle: SavedStateHandle) : this()
 
-    val navigationState: MutableLiveData<MainActivityNavigationState> =
-        MutableLiveData<MainActivityNavigationState>().apply {
-            value = MainActivityNavigationState()
-        }
-
-    fun updatePage(newNavigationState: MainActivityNavigationState) {
-        navigationState.value = newNavigationState
+  val navigationState: MutableLiveData<MainActivityNavigationState> =
+    MutableLiveData<MainActivityNavigationState>().apply {
+      value = MainActivityNavigationState()
     }
+
+  fun updatePage(newNavigationState: MainActivityNavigationState) {
+    navigationState.value = newNavigationState
+  }
 
 }

@@ -8,17 +8,17 @@ import androidx.fragment.app.Fragment
 import pretest.app.attendancetracker.R
 
 class ApprovalsFragment : Fragment() {
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(
-            R.layout.approvals, container, false
-        )
-    }
+  override fun onCreateView(
+    inflater: LayoutInflater,
+    container: ViewGroup?,
+    savedInstanceState: Bundle?
+  ): View? {
+    return inflater.inflate(
+      R.layout.approvals, container, false
+    )
+  }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    super.onViewCreated(view, savedInstanceState)
+  }
 }

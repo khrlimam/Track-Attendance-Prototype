@@ -76,13 +76,6 @@
             android:text="@string/services" />
 
         <com.google.android.material.tabs.TabItem
-            android:id="@+id/tabHome"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:icon="@drawable/service_normal"
-            android:text="@string/home" />
-
-        <com.google.android.material.tabs.TabItem
             android:id="@+id/tabFeeds"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -101,7 +94,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:icon="@drawable/service_normal"
-            android:text="@string/more" />
+            android:text="@string/about" />
 
     </com.google.android.material.tabs.TabLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
