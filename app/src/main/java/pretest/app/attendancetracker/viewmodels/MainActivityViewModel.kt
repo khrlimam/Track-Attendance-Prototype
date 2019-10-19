@@ -7,20 +7,15 @@ import pretest.app.attendancetracker.Statics.PROFILE_INFO
 import pretest.app.attendancetracker.models.MainActivityNavigationState
 import pretest.app.attendancetracker.models.ProfileInfo
 
-class MainActivityViewModel() : ViewModel() {
+class MainActivityViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel() {
 
-  private var savedStateHandle: SavedStateHandle? = null
-  val profileInfo: MutableLiveData<ProfileInfo> by lazy { MutableLiveData<ProfileInfo>() }
+  val profileInfo: LiveData<ProfileInfo> by lazy {
+    savedStateHandle.getLiveData<ProfileInfo>(PROFILE_INFO)
+  }
   val navigationState: MutableLiveData<MainActivityNavigationState> by lazy {
     MutableLiveData<MainActivityNavigationState>().apply {
       value = MainActivityNavigationState()
     }
-  }
-
-
-  constructor(savedStateHandle: SavedStateHandle) : this() {
-    this.savedStateHandle = savedStateHandle
-    profileInfo.value = savedStateHandle.get(PROFILE_INFO)
   }
 
   fun updatePage(newNavigationState: MainActivityNavigationState) {
@@ -38,8 +33,7 @@ class MainActivityViewModelFactory(
     key: String,
     modelClass: Class<T>,
     handle: SavedStateHandle
-  ): T {
-    return MainActivityViewModel(handle) as T
-  }
+  ): T = MainActivityViewModel(handle) as T
+
 
 }

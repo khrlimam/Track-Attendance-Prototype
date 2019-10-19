@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
   private fun changePage(title: String, page: Int, menuPosition: Int) {
     tvPageTitle.text = title
     bottomTabMenu.getTabAt(menuPosition)?.select()
-    navController.navigate(page)
+    navController.navigate(page, null, Statics.fadeInFadeOutTransition)
   }
 
   private fun observeProfileInfoState() = Observer<ProfileInfo> {

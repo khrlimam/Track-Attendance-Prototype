@@ -3,6 +3,7 @@ package pretest.app.attendancetracker
 import android.content.Context
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.navigation.navOptions
 import com.bumptech.glide.Glide
 
 object Statics {
@@ -11,6 +12,18 @@ object Statics {
   const val AUTH0_DOMAIN = "mantap.au.auth0.com"
   const val PROFILE_INFO = "PROFILE_INFO"
   const val EXTRA_BUNDLE = "EXTRA_BUNDLE"
+
+
+  val fadeInFadeOutTransition by lazy {
+    navOptions {
+      anim {
+        enter = R.anim.fade_in
+        exit = R.anim.fade_out
+        popEnter = R.anim.fade_in
+        popExit = R.anim.fade_out
+      }
+    }
+  }
 }
 
 fun Context.toast(message: String?) {

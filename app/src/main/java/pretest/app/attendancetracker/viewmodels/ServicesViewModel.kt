@@ -30,7 +30,5 @@ class ServiceViewModelFactory(
     key: String,
     modelClass: Class<T>,
     handle: SavedStateHandle
-  ): T {
-    return ServicesViewModel(handle, repository) as T
-  }
+  ): T = ServicesViewModel(handle, repository) as T
 }
