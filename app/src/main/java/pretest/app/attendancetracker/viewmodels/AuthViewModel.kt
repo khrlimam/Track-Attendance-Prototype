@@ -11,8 +11,9 @@ import pretest.app.attendancetracker.models.ProfileInfo
 
 class AuthViewModel(private val provider: AuthenticationProvider) : ViewModel() {
 
-  val credential: LiveData<Credential?> by lazy { liveData { emit(getCredential()) } }
-  val profileInfo: LiveData<ProfileInfo?> by lazy { liveData { emit(getProfile()) } }
+  val credential: MutableLiveData<Credential?> by lazy { MutableLiveData<Credential?>() }
+  val profileInfo: MutableLiveData<ProfileInfo?> by lazy { MutableLiveData<ProfileInfo?>() }
+  val validCredential: LiveData<Boolean> by lazy { liveData { emit(isValidCredential()) } }
   val loginResult: MutableLiveData<LoginResult> by lazy { MutableLiveData<LoginResult>() }
   val logoutResult: MutableLiveData<LogoutResult> by lazy { MutableLiveData<LogoutResult>() }
 
@@ -32,7 +33,15 @@ class AuthViewModel(private val provider: AuthenticationProvider) : ViewModel() 
     return provider.getProfile()
   }
 
-  suspend fun isValidCredential(): Boolean {
+  suspend fun requestProfileInfo() {
+    profileInfo.postValue(getProfile())
+  }
+
+  suspend fun requestUserCredential() {
+    credential.postValue(getCredential())
+  }
+
+  private suspend fun isValidCredential(): Boolean {
     return provider.isValidCredential()
   }
 
