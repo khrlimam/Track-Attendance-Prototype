@@ -9,6 +9,9 @@ import androidx.navigation.Navigation
 import kotlinx.android.synthetic.main.activity_main.*
 import pretest.app.attendancetracker.models.MainActivityNavigationState
 import pretest.app.attendancetracker.uis.OnTabSelected
+import pretest.app.attendancetracker.utils.Statics
+import pretest.app.attendancetracker.utils.getUserInfo
+import pretest.app.attendancetracker.utils.loadFromUrl
 import pretest.app.attendancetracker.viewmodels.MainActivityViewModel
 
 class MainActivity : AppCompatActivity() {

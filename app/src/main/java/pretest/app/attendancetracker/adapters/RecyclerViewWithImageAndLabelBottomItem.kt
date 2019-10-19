@@ -1,13 +1,14 @@
-package pretest.app.attendancetracker
+package pretest.app.attendancetracker.adapters
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.image_bottomlabel_item.view.*
+import pretest.app.attendancetracker.R
 
-class RecyclerviewWithImageAndLabelBottomItem(val data: List<DataHolder>) :
-  RecyclerView.Adapter<RecyclerviewWithImageAndLabelBottomItem.ViewHolder>() {
+class RecyclerViewWithImageAndLabelBottomItem(private val data: List<DataHolder>) :
+  RecyclerView.Adapter<RecyclerViewWithImageAndLabelBottomItem.ViewHolder>() {
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
     return ViewHolder(
       LayoutInflater.from(parent.context)

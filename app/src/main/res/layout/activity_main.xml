@@ -56,13 +56,6 @@
         </LinearLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <!--    <FrameLayout-->
-    <!--        android:id="@+id/content"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="match_parent"-->
-    <!--        android:paddingBottom="70dp"-->
-    <!--        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />-->
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -98,21 +91,21 @@
             android:id="@+id/tabFeeds"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:icon="@drawable/service_normal"
+            android:icon="@drawable/feed_menu_icon"
             android:text="@string/feeds" />
 
         <com.google.android.material.tabs.TabItem
             android:id="@+id/tabApproval"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:icon="@drawable/service_normal"
+            android:icon="@drawable/approval_menu_icon"
             android:text="@string/approvals" />
 
         <com.google.android.material.tabs.TabItem
             android:id="@+id/tabMore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:icon="@drawable/service_normal"
+            android:icon="@drawable/about_menu_icon"
             android:text="@string/about" />
 
     </com.google.android.material.tabs.TabLayout>

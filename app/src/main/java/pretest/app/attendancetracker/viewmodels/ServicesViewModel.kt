@@ -4,7 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import androidx.lifecycle.*
 import androidx.savedstate.SavedStateRegistryOwner
-import pretest.app.attendancetracker.RecyclerviewWithImageAndLabelBottomItem.DataHolder
+import pretest.app.attendancetracker.adapters.RecyclerViewWithImageAndLabelBottomItem.DataHolder
 import pretest.app.attendancetracker.repositories.ServiceRepository
 
 class ServicesViewModel(

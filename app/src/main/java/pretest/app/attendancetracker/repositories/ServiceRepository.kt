@@ -5,7 +5,7 @@ import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import pretest.app.attendancetracker.R
-import pretest.app.attendancetracker.RecyclerviewWithImageAndLabelBottomItem.DataHolder
+import pretest.app.attendancetracker.adapters.RecyclerViewWithImageAndLabelBottomItem.DataHolder
 
 class ServiceRepository(private val context: Context?) {
 

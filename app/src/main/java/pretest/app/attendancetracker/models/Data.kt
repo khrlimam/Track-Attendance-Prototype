@@ -1,6 +1,7 @@
 package pretest.app.attendancetracker.models
 
 import android.os.Parcelable
+import androidx.fragment.app.Fragment
 import kotlinx.android.parcel.Parcelize
 import java.util.*
 
@@ -32,3 +33,5 @@ data class ProfileInfo(
   val provider: String? = "",
   val additionalInfo: Map<String, String>? = null
 ) : Parcelable
+
+data class FragmentPage(val title: String, val fragment: Fragment)

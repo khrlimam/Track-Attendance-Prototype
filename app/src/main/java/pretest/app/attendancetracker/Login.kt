@@ -6,17 +6,15 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import com.auth0.android.provider.WebAuthProvider
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import pretest.app.attendancetracker.Statics.PROFILE_INFO
 import pretest.app.attendancetracker.auth.auth0.Auth0LoginResult
-import pretest.app.attendancetracker.auth.auth0.Auth0LogoutCallback
-import pretest.app.attendancetracker.auth.auth0.Auth0LogoutResult
 import pretest.app.attendancetracker.contracts.LoginResult
-import pretest.app.attendancetracker.contracts.LogoutResult
 import pretest.app.attendancetracker.models.ProfileInfo
-import pretest.app.attendancetracker.utils.gson
+import pretest.app.attendancetracker.utils.GsonDefault
+import pretest.app.attendancetracker.utils.Statics.PROFILE_INFO
+import pretest.app.attendancetracker.utils.appPreferences
+import pretest.app.attendancetracker.utils.toast
 import pretest.app.attendancetracker.viewmodels.Auth0ProviderFactory
 import pretest.app.attendancetracker.viewmodels.AuthViewModel
 
@@ -30,7 +28,6 @@ class Login : AppCompatActivity() {
     setContentView(R.layout.activity_login)
     mAuthViewModel.profileInfo.observe(this, observeProfileInfoState())
     mAuthViewModel.loginResult.observe(this, observeLoginResultState())
-    mAuthViewModel.logoutResult.observe(this, observeLogoutResultState())
     mAuthViewModel.validCredential.observe(this, observeValidCredential())
   }
 
@@ -51,7 +48,7 @@ class Login : AppCompatActivity() {
 
   private fun observeProfileInfoState() = Observer<ProfileInfo?> {
     it?.apply {
-      appPreferences().edit().putString(PROFILE_INFO, gson.toJson(this)).apply()
+      appPreferences().edit().putString(PROFILE_INFO, GsonDefault.transform.toJson(this)).apply()
       redirectToMainActivity()
     }
   }
@@ -71,14 +68,14 @@ class Login : AppCompatActivity() {
     }
   }
 
-  private fun observeLogoutResultState() = Observer<LogoutResult> {
-    when (val result = it as Auth0LogoutResult) {
-      is Auth0LogoutResult.Auth0LogoutSuccess -> {
-        appPreferences().edit().remove(PROFILE_INFO).apply()
-        WebAuthProvider.logout(result.auth0)
-          .withScheme("demo")
-          .start(this, Auth0LogoutCallback(this))
-      }
-    }
-  }
+//  private fun observeLogoutResultState() = Observer<LogoutResult> {
+//    when (val result = it as Auth0LogoutResult) {
+//      is Auth0LogoutResult.Auth0LogoutSuccess -> {
+//        appPreferences().edit().remove(PROFILE_INFO).apply()
+//        WebAuthProvider.logout(result.auth0)
+//          .withScheme("demo")
+//          .start(this, Auth0LogoutCallback(this))
+//      }
+//    }
+//  }
 }

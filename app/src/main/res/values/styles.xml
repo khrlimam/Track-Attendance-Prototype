@@ -9,6 +9,7 @@
         <item name="android:textColorPrimary">@android:color/black</item>
         <item name="android:textColor">@android:color/black</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorSecondary">@android:color/black</item>
         <item name="android:colorBackground">@color/colorBackground</item>
     </style>
 
@@ -31,7 +32,7 @@
         <item name="tabIndicatorFullWidth">false</item>
         <item name="tabIndicatorHeight">3dp</item>
         <item name="tabIndicatorAnimationDuration">300</item>
-        <item name="tabIconTint">@color/textInfo</item>
+        <item name="tabIconTint">@null</item>
     </style>
 
     <style name="Headline3.Info" parent="TextAppearance.MaterialComponents.Headline3">

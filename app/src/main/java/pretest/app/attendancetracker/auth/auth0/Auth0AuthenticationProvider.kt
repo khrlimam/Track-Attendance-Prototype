@@ -13,7 +13,7 @@ import com.auth0.android.management.UsersAPIClient
 import com.auth0.android.provider.WebAuthProvider
 import com.auth0.android.result.Credentials
 import com.auth0.android.result.UserProfile
-import pretest.app.attendancetracker.Statics
+import pretest.app.attendancetracker.utils.Statics
 import pretest.app.attendancetracker.contracts.AuthenticationProvider
 import pretest.app.attendancetracker.contracts.LoginResult
 import pretest.app.attendancetracker.contracts.LogoutResult

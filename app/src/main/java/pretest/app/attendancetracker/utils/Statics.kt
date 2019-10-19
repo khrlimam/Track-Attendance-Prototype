@@ -1,18 +1,17 @@
-package pretest.app.attendancetracker
+package pretest.app.attendancetracker.utils
 
 import android.content.Context
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.navigation.navOptions
 import com.bumptech.glide.Glide
+import pretest.app.attendancetracker.BuildConfig
+import pretest.app.attendancetracker.R
 import pretest.app.attendancetracker.models.ProfileInfo
-import pretest.app.attendancetracker.utils.gson
 
 object Statics {
   const val AUTH0_DOMAIN = "mantap.au.auth0.com"
   const val PROFILE_INFO = "PROFILE_INFO"
-  const val EXTRA_BUNDLE = "EXTRA_BUNDLE"
-
 
   val fadeInFadeOutTransition by lazy {
     navOptions {
@@ -38,7 +37,7 @@ fun ImageView.loadFromUrl(url: String) {
 }
 
 fun Context.getUserInfo(): ProfileInfo {
-  return gson.fromJson(
+  return GsonDefault.transform.fromJson(
     appPreferences().getString(Statics.PROFILE_INFO, ""),
     ProfileInfo::class.java
   )

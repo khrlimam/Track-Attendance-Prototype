@@ -11,7 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.android.synthetic.main.services.*
 import pretest.app.attendancetracker.R
-import pretest.app.attendancetracker.RecyclerviewWithImageAndLabelBottomItem
+import pretest.app.attendancetracker.adapters.RecyclerViewWithImageAndLabelBottomItem
 import pretest.app.attendancetracker.uis.SpacesItemDecoration
 import pretest.app.attendancetracker.viewmodels.ServiceViewModelFactory
 import pretest.app.attendancetracker.viewmodels.ServicesViewModel
@@ -26,8 +26,9 @@ class ServicesFragment : Fragment() {
     )
   }
 
-  private val mData = mutableListOf<RecyclerviewWithImageAndLabelBottomItem.DataHolder>()
-  private val mAdapter = RecyclerviewWithImageAndLabelBottomItem(mData)
+  private val mData = mutableListOf<RecyclerViewWithImageAndLabelBottomItem.DataHolder>()
+  private val mAdapter =
+    RecyclerViewWithImageAndLabelBottomItem(mData)
 
   override fun onCreateView(
     inflater: LayoutInflater,
