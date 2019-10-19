@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/servicesFragment">
+
+    <fragment
+        android:id="@+id/servicesFragment"
+        android:name="pretest.app.attendancetracker.fragments.ServicesFragment"
+        android:label="ServicesFragment" />
+    <fragment
+        android:id="@+id/approvalsFragment"
+        android:name="pretest.app.attendancetracker.fragments.ApprovalsFragment"
+        android:label="ApprovalsFragment" />
+</navigation>

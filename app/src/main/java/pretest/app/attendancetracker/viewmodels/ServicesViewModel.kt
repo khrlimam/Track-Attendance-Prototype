@@ -22,8 +22,7 @@ class ServiceViewModelFactory(
   owner: SavedStateRegistryOwner,
   defaultArgs: Bundle?,
   context: Context?
-) :
-  AbstractSavedStateViewModelFactory(owner, defaultArgs) {
+) : AbstractSavedStateViewModelFactory(owner, defaultArgs) {
 
   private val repository: ServiceRepository by lazy { ServiceRepository(context) }
 

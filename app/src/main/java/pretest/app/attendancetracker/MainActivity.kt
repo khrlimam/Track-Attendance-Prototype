@@ -3,13 +3,12 @@ package pretest.app.attendancetracker
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_main.*
 import pretest.app.attendancetracker.Statics.EXTRA_BUNDLE
-import pretest.app.attendancetracker.fragments.ApprovalsFragment
-import pretest.app.attendancetracker.fragments.ServicesFragment
 import pretest.app.attendancetracker.models.MainActivityNavigationState
 import pretest.app.attendancetracker.models.ProfileInfo
 import pretest.app.attendancetracker.viewmodels.MainActivityViewModel
@@ -21,18 +20,23 @@ class MainActivity : AppCompatActivity() {
     MainActivityViewModelFactory(this, intent.getBundleExtra(EXTRA_BUNDLE))
   }
 
+  lateinit var navController: NavController
+
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
+
+    navController = Navigation.findNavController(this, R.id.content)
+
     bottomTabMenu.addOnTabSelectedListener(onTabSelectedListener())
     mViewModel.navigationState.observe(this, observeNavStateChange())
     mViewModel.profileInfo.observe(this, observeProfileInfoState())
   }
 
-  private fun changePage(title: String, page: Fragment, menuPosition: Int) {
+  private fun changePage(title: String, page: Int, menuPosition: Int) {
     tvPageTitle.text = title
     bottomTabMenu.getTabAt(menuPosition)?.select()
-    changeContainer(page)
+    navController.navigate(page)
   }
 
   private fun observeProfileInfoState() = Observer<ProfileInfo> {
@@ -43,22 +47,15 @@ class MainActivity : AppCompatActivity() {
     when (it.bottomMenuSelected) {
       getString(R.string.services) -> changePage(
         it.pageTitle,
-        ServicesFragment(),
+        R.id.servicesFragment,
         it.menuPosition
       )
       getString(R.string.approvals) -> changePage(
         it.pageTitle,
-        ApprovalsFragment(),
+        R.id.approvalsFragment,
         it.menuPosition
       )
     }
-  }
-
-  private fun changeContainer(fragment: Fragment) {
-    supportFragmentManager
-      .beginTransaction()
-      .replace(R.id.content, fragment)
-      .commit()
   }
 
   private fun onTabSelectedListener(): TabLayout.OnTabSelectedListener {
