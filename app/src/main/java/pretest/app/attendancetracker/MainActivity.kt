@@ -5,28 +5,28 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.SavedStateViewModelFactory
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_main.*
+import pretest.app.attendancetracker.Statics.EXTRA_BUNDLE
 import pretest.app.attendancetracker.fragments.ApprovalsFragment
 import pretest.app.attendancetracker.fragments.ServicesFragment
 import pretest.app.attendancetracker.models.MainActivityNavigationState
+import pretest.app.attendancetracker.models.ProfileInfo
 import pretest.app.attendancetracker.viewmodels.MainActivityViewModel
+import pretest.app.attendancetracker.viewmodels.MainActivityViewModelFactory
 
 class MainActivity : AppCompatActivity() {
 
   private val mViewModel: MainActivityViewModel by viewModels {
-    SavedStateViewModelFactory(
-      application,
-      this
-    )
+    MainActivityViewModelFactory(this, intent.getBundleExtra(EXTRA_BUNDLE))
   }
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
     bottomTabMenu.addOnTabSelectedListener(onTabSelectedListener())
-    mViewModel.navigationState.observe(this, observeUiStateChange())
+    mViewModel.navigationState.observe(this, observeNavStateChange())
+    mViewModel.profileInfo.observe(this, observeProfileInfoState())
   }
 
   private fun changePage(title: String, page: Fragment, menuPosition: Int) {
@@ -35,7 +35,11 @@ class MainActivity : AppCompatActivity() {
     changeContainer(page)
   }
 
-  private fun observeUiStateChange() = Observer<MainActivityNavigationState> {
+  private fun observeProfileInfoState() = Observer<ProfileInfo> {
+    it.pictureUrl?.let { it1 -> ivUserPicture.loadFromUrl(it1) }
+  }
+
+  private fun observeNavStateChange() = Observer<MainActivityNavigationState> {
     when (it.bottomMenuSelected) {
       getString(R.string.services) -> changePage(
         it.pageTitle,

@@ -1,5 +1,7 @@
 package pretest.app.attendancetracker.models
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 import java.util.*
 
 data class MainActivityNavigationState(
@@ -20,6 +22,7 @@ data class Credential(
   val additionalInfo: Map<String, String>? = null
 )
 
+@Parcelize
 data class ProfileInfo(
   val id: String? = "",
   val name: String? = "",
@@ -28,4 +31,4 @@ data class ProfileInfo(
   val email: String? = "",
   val provider: String? = "",
   val additionalInfo: Map<String, String>? = null
-)
+) : Parcelable

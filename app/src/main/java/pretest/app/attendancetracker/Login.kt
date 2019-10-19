@@ -2,7 +2,6 @@ package pretest.app.attendancetracker
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -10,6 +9,8 @@ import androidx.lifecycle.Observer
 import com.auth0.android.provider.WebAuthProvider
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import pretest.app.attendancetracker.Statics.EXTRA_BUNDLE
+import pretest.app.attendancetracker.Statics.PROFILE_INFO
 import pretest.app.attendancetracker.auth.auth0.Auth0LoginResult
 import pretest.app.attendancetracker.auth.auth0.Auth0LogoutCallback
 import pretest.app.attendancetracker.auth.auth0.Auth0LogoutResult
@@ -23,34 +24,44 @@ import pretest.app.attendancetracker.viewmodels.AuthViewModel
 
 class Login : AppCompatActivity() {
 
-  private val mViewModel: AuthViewModel by viewModels { Auth0ProviderFactory(this) }
+  private val mAuthViewModel: AuthViewModel by viewModels { Auth0ProviderFactory(this) }
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_login)
-    mViewModel.credential.observe(this, handleCredential())
-    mViewModel.profileInfo.observe(this, handleProfileInfo())
-    mViewModel.loginResult.observe(this, handleLoginResult())
-    mViewModel.logoutResult.observe(this, handleLogoutResult())
+    mAuthViewModel.credential.observe(this, observeCredState())
+    mAuthViewModel.profileInfo.observe(this, observeProfileInfoState())
+    mAuthViewModel.loginResult.observe(this, observeLoginResultState())
+    mAuthViewModel.logoutResult.observe(this, observeLogoutResultState())
   }
 
   fun login(view: View) {
-    GlobalScope.launch { mViewModel.login() }
+    GlobalScope.launch { mAuthViewModel.login() }
   }
 
   fun logout(view: View) {
-    GlobalScope.launch { mViewModel.logout() }
+    GlobalScope.launch { mAuthViewModel.logout() }
   }
 
-  fun handleCredential() = Observer<Credential?> {
-    it?.let { Log.i(localClassName, it.toString()) }
+  private fun observeCredState() = Observer<Credential?> { credential ->
+    credential?.apply {
+    }
   }
 
-  fun handleProfileInfo() = Observer<ProfileInfo?> {
-    it?.let { Log.i(localClassName, it.toString()) }
+  private fun observeProfileInfoState() = Observer<ProfileInfo?> {
+    it?.apply {
+      // redirect user if credential presents. meaning the user is logged in
+      startActivity(Intent(this@Login, MainActivity::class.java).apply {
+        putExtra(EXTRA_BUNDLE, Bundle().apply {
+          // we can use the view model to retrieve user profile info on other activity, but for now just send via intent
+          putParcelable(PROFILE_INFO, it)
+        })
+      })
+      finish()
+    }
   }
 
-  fun handleLoginResult() = Observer<LoginResult> {
+  private fun observeLoginResultState() = Observer<LoginResult> {
     when (val result = it as Auth0LoginResult) {
       is Auth0LoginResult.Auth0LoginFailed -> toast(result.exception.message)
       is Auth0LoginResult.Auth0LoginSucceed -> {
@@ -61,12 +72,11 @@ class Login : AppCompatActivity() {
     }
   }
 
-  fun handleLogoutResult() = Observer<LogoutResult> {
+  private fun observeLogoutResultState() = Observer<LogoutResult> {
     when (val result = it as Auth0LogoutResult) {
       is Auth0LogoutResult.Auth0LogoutSuccess -> WebAuthProvider.logout(result.auth0)
         .withScheme("demo")
         .start(this, Auth0LogoutCallback(this))
     }
   }
-
 }
