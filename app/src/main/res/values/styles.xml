@@ -13,10 +13,6 @@
         <item name="android:colorBackground">@color/colorBackground</item>
     </style>
 
-    <style name="Info">
-        <item name="android:textColor">@color/textInfo</item>
-    </style>
-
     <style name="CapsText.CardMenu" parent="CapsText">
         <item name="android:textAlignment">center</item>
         <item name="android:fontFamily">sans-serif-black</item>
@@ -106,14 +102,5 @@
     <style name="Round.Button.Primary" parent="Round.Button">
         <item name="backgroundTint">@color/primaryColor</item>
     </style>
-
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>
