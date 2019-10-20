@@ -6,11 +6,7 @@ import pretest.app.attendancetracker.models.MainActivityNavigationState
 
 class MainActivityViewModel : ViewModel() {
 
-  val navigationState: MutableLiveData<MainActivityNavigationState> by lazy {
-    MutableLiveData<MainActivityNavigationState>().apply {
-      value = MainActivityNavigationState(bottomMenuSelected = "")
-    }
-  }
+  val navigationState: MutableLiveData<MainActivityNavigationState> by lazy { MutableLiveData<MainActivityNavigationState>() }
 
   fun updatePage(newNavigationState: MainActivityNavigationState) {
     navigationState.value = newNavigationState

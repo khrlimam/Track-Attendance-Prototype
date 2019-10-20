@@ -121,6 +121,7 @@
     <string name="pending">Pending</string>
     <string name="approved">Approved</string>
     <string name="rejected">Rejected</string>
+    <string name="no_records_found">No records found</string>
 
     <string-array name="service_menus">
         <item>@string/leave_tracker</item>

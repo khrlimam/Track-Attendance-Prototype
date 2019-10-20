@@ -9,9 +9,7 @@ import androidx.navigation.Navigation
 import kotlinx.android.synthetic.main.activity_main.*
 import pretest.app.attendancetracker.models.MainActivityNavigationState
 import pretest.app.attendancetracker.uis.OnTabSelected
-import pretest.app.attendancetracker.utils.Statics
-import pretest.app.attendancetracker.utils.getUserInfo
-import pretest.app.attendancetracker.utils.loadFromUrl
+import pretest.app.attendancetracker.utils.*
 import pretest.app.attendancetracker.viewmodels.MainActivityViewModel
 
 class MainActivity : AppCompatActivity() {
@@ -27,7 +25,7 @@ class MainActivity : AppCompatActivity() {
 
     setUpBottomTabMenu()
     initModelObserver()
-    getUserInfo().pictureUrl?.let { ivUserPicture.loadFromUrl(it) }
+    getUserInfo().pictureUrl?.let { ivUserPicture.setImageFrom(it) }
   }
 
   private fun initModelObserver() {
@@ -48,12 +46,16 @@ class MainActivity : AppCompatActivity() {
   }
 
   private fun observeNavStateChange() = Observer<MainActivityNavigationState> {
+    etSearch.gone()
     when (it.bottomMenuSelected) {
-      getString(R.string.services) -> changePage(
-        it.pageTitle,
-        R.id.servicesFragment,
-        it.menuPosition
-      )
+      getString(R.string.services) -> {
+        etSearch.visible()
+        changePage(
+          it.pageTitle,
+          R.id.servicesFragment,
+          it.menuPosition
+        )
+      }
       getString(R.string.approvals) -> changePage(
         it.pageTitle,
         R.id.approvalsFragment,

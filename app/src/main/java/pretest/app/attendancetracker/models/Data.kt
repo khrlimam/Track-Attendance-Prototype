@@ -6,8 +6,8 @@ import kotlinx.android.parcel.Parcelize
 import java.util.*
 
 data class MainActivityNavigationState(
-  var bottomMenuSelected: String = "Services",
-  var pageTitle: String = "Services",
+  var bottomMenuSelected: String = "ServicesData",
+  var pageTitle: String = "ServicesData",
   var menuPosition: Int = 0
 )
 

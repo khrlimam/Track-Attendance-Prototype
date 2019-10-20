@@ -4,16 +4,16 @@ import android.content.Context
 import android.os.Bundle
 import androidx.lifecycle.*
 import androidx.savedstate.SavedStateRegistryOwner
-import pretest.app.attendancetracker.adapters.RecyclerViewWithImageAndLabelBottomItem.DataHolder
+import pretest.app.attendancetracker.adapters.RecyclerViewWithImageBottomLabelItem.DataHolder
 import pretest.app.attendancetracker.repositories.ServiceRepository
 
 class ServicesViewModel(
   val savedStateHandle: SavedStateHandle,
-  val serviceRepository: ServiceRepository
+  private val serviceRepository: ServiceRepository
 ) : ViewModel() {
 
   val servicesMenu: LiveData<List<DataHolder>> by lazy {
-    liveData { emit(serviceRepository.getServices().await()) }
+    liveData { emit(serviceRepository.getServices().data.map { DataHolder(it.name, it.icon) }) }
   }
 }
 
@@ -24,7 +24,7 @@ class ServiceViewModelFactory(
   context: Context?
 ) : AbstractSavedStateViewModelFactory(owner, defaultArgs) {
 
-  private val repository: ServiceRepository by lazy { ServiceRepository(context) }
+  private val repository: ServiceRepository by lazy { ServiceRepository() }
 
   override fun <T : ViewModel?> create(
     key: String,

@@ -6,9 +6,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.image_bottomlabel_item.view.*
 import pretest.app.attendancetracker.R
+import pretest.app.attendancetracker.utils.setImageFrom
 
-class RecyclerViewWithImageAndLabelBottomItem(private val data: List<DataHolder>) :
-  RecyclerView.Adapter<RecyclerViewWithImageAndLabelBottomItem.ViewHolder>() {
+class RecyclerViewWithImageBottomLabelItem(private val data: List<DataHolder>) :
+  RecyclerView.Adapter<RecyclerViewWithImageBottomLabelItem.ViewHolder>() {
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
     return ViewHolder(
       LayoutInflater.from(parent.context)
@@ -26,10 +27,10 @@ class RecyclerViewWithImageAndLabelBottomItem(private val data: List<DataHolder>
     fun bind(dataHolder: DataHolder) {
       itemView.apply {
         tvLabelBottom.text = dataHolder.labelBottom
-        ivIcon.setImageDrawable(resources.getDrawable(dataHolder.drawable, null))
+        ivIcon.setImageFrom(dataHolder.img)
       }
     }
   }
 
-  data class DataHolder(val labelBottom: String, val drawable: Int)
+  data class DataHolder(val labelBottom: String, val img: String)
 }

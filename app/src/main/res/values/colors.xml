@@ -12,4 +12,11 @@
     <color name="dividerColor">#CDCDCD</color>
     <color name="grey">#EBEBEB</color>
     <color name="greyDarker">#B5B5B5</color>
+
+    <color name="flatBlueColor">#3498db</color>
+    <color name="flatGreenColor">#1abc9c</color>
+    <color name="flatRedColor">#e74c3c</color>
+    <color name="flatPurpleColor">#9b59b6</color>
+    <color name="flatYellowColor">#f1c40f</color>
+    <color name="flatOrangeColor">#e67e22</color>
 </resources>

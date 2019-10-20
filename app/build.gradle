@@ -13,6 +13,9 @@ android {
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
+
+        buildConfigField "String", "BASE_URL", "\"https://private-32e54a-attendancetrackermockdata.apiary-mock.com/\""
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [auth0Domain: "@string/com_auth0_domain", auth0Scheme: "demo"]
     }
@@ -31,6 +34,7 @@ androidExtensions {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'com.facebook.shimmer:shimmer:0.5.0'
 
     // android architecture components
     implementation 'androidx.appcompat:appcompat:1.1.0'
@@ -54,6 +58,10 @@ dependencies {
 
     // gson
     implementation 'com.google.code.gson:gson:2.8.6'
+    // retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.6.2'
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.2'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.2.2'
 
     // tests
     testImplementation 'junit:junit:4.12'

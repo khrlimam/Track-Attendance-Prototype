@@ -1,16 +1,24 @@
 package pretest.app.attendancetracker.fragments
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import pretest.app.attendancetracker.R
+import androidx.lifecycle.LiveData
+import pretest.app.attendancetracker.adapters.RecyclerViewWithMediaCardItem.DataHolder
+import pretest.app.attendancetracker.utils.Statics
+import pretest.app.attendancetracker.viewmodels.ApprovalsViewModel
 
-class PendingApprovalsFragment : Fragment() {
-  override fun onCreateView(
-    inflater: LayoutInflater,
-    container: ViewGroup?,
-    savedInstanceState: Bundle?
-  ): View? = inflater.inflate(R.layout.pending_approvals, container, false)
+class PendingApprovalsFragment : BaseApprovalsStatusFragment() {
+
+  companion object {
+    fun newInstance(approvalsViewModel: ApprovalsViewModel): PendingApprovalsFragment {
+      val fragment = PendingApprovalsFragment()
+      fragment.mApprovalsViewModel = approvalsViewModel
+      return fragment
+    }
+  }
+
+  override suspend fun requestApproval() {
+    mApprovalsViewModel?.getPendingApprovals(Statics.MOCK_USERNAME)
+  }
+
+  override fun dataToObserve(): LiveData<List<DataHolder>>? = mApprovalsViewModel?.pendingApprovals
+
 }
