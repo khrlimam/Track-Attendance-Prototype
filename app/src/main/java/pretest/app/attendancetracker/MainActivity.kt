@@ -8,17 +8,10 @@ import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import com.auth0.android.provider.WebAuthProvider
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import pretest.app.attendancetracker.auth.auth0.Auth0LogoutCallback
-import pretest.app.attendancetracker.auth.auth0.Auth0LogoutResult
-import pretest.app.attendancetracker.contracts.LogoutResult
 import pretest.app.attendancetracker.models.MainActivityNavigationState
 import pretest.app.attendancetracker.uis.OnTabSelected
 import pretest.app.attendancetracker.utils.*
-import pretest.app.attendancetracker.utils.Statics.PROFILE_INFO
 import pretest.app.attendancetracker.viewmodels.MainActivityViewModel
 
 class MainActivity : GuardActivity() {
@@ -70,6 +63,8 @@ class MainActivity : GuardActivity() {
         R.id.approvalsFragment,
         it.menuPosition
       )
+      getString(R.string.about) -> changePage(it.pageTitle, R.id.aboutFragment, it.menuPosition)
+      getString(R.string.feeds) -> changePage(it.pageTitle, R.id.feedsFragment, it.menuPosition)
     }
   }
 

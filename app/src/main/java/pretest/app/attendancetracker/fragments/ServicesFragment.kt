@@ -10,7 +10,6 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.android.synthetic.main.loading_data_shimmer.*
 import kotlinx.android.synthetic.main.recyclerview.*
-import kotlinx.android.synthetic.main.services.recyclerview
 import pretest.app.attendancetracker.R
 import pretest.app.attendancetracker.adapters.RecyclerViewWithImageBottomLabelItem
 import pretest.app.attendancetracker.uis.SpacesItemDecoration

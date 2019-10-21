@@ -12,4 +12,12 @@
         android:id="@+id/approvalsFragment"
         android:name="pretest.app.attendancetracker.fragments.ApprovalsFragment"
         android:label="ApprovalsFragment" />
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="pretest.app.attendancetracker.fragments.AboutFragment"
+        android:label="AboutFragment" />
+    <fragment
+        android:id="@+id/feedsFragment"
+        android:name="pretest.app.attendancetracker.fragments.FeedsFragment"
+        android:label="FeedsFragment" />
 </navigation>
