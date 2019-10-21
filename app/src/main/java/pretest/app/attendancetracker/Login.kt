@@ -19,9 +19,7 @@ import pretest.app.attendancetracker.viewmodels.Auth0ProviderFactory
 import pretest.app.attendancetracker.viewmodels.AuthViewModel
 
 
-class Login : AppCompatActivity() {
-
-  private val mAuthViewModel: AuthViewModel by viewModels { Auth0ProviderFactory(this) }
+class Login : GuardActivity() {
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -40,10 +38,6 @@ class Login : AppCompatActivity() {
 
   fun login(view: View) {
     GlobalScope.launch { mAuthViewModel.login() }
-  }
-
-  fun logout(view: View) {
-    GlobalScope.launch { mAuthViewModel.logout() }
   }
 
   private fun observeProfileInfoState() = Observer<ProfileInfo?> {
@@ -67,15 +61,4 @@ class Login : AppCompatActivity() {
       is Auth0LoginResult.Auth0PermissionNotGranted -> result.dialog.show()
     }
   }
-
-//  private fun observeLogoutResultState() = Observer<LogoutResult> {
-//    when (val result = it as Auth0LogoutResult) {
-//      is Auth0LogoutResult.Auth0LogoutSuccess -> {
-//        appPreferences().edit().remove(PROFILE_INFO).apply()
-//        WebAuthProvider.logout(result.auth0)
-//          .withScheme("demo")
-//          .start(this, Auth0LogoutCallback(this))
-//      }
-//    }
-//  }
 }

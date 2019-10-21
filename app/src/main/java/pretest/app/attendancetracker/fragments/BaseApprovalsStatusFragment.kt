@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.approval_status.*
+import kotlinx.android.synthetic.main.recyclerview.*
 import kotlinx.android.synthetic.main.loading_data_shimmer.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -30,7 +30,7 @@ abstract class BaseApprovalsStatusFragment : Fragment() {
     inflater: LayoutInflater,
     container: ViewGroup?,
     savedInstanceState: Bundle?
-  ): View? = inflater.inflate(R.layout.approval_status, container, false)
+  ): View? = inflater.inflate(R.layout.recyclerview, container, false)
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
@@ -54,7 +54,7 @@ abstract class BaseApprovalsStatusFragment : Fragment() {
   abstract suspend fun requestApproval()
   abstract fun dataToObserve(): LiveData<List<DataHolder>>?
 
-  fun observeApprovalData() = Observer<List<DataHolder>> {
+  private fun observeApprovalData() = Observer<List<DataHolder>> {
     loadingDone()
     if (it.isEmpty()) notFound.visible()
     else {

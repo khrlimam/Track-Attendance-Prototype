@@ -13,4 +13,10 @@
         android:icon="@drawable/ic_notifications_none_black_24dp"
         android:title="@string/reminder"
         app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/menu_logout"
+        android:icon="@drawable/ic_close_black_24dp"
+        android:title="Logout"
+        app:showAsAction="ifRoom" />
 </menu>

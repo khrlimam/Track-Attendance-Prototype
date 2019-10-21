@@ -1,6 +1,5 @@
 package pretest.app.attendancetracker.viewmodels
 
-import android.content.Context
 import android.os.Bundle
 import androidx.lifecycle.*
 import androidx.savedstate.SavedStateRegistryOwner
@@ -13,15 +12,14 @@ class ServicesViewModel(
 ) : ViewModel() {
 
   val servicesMenu: LiveData<List<DataHolder>> by lazy {
-    liveData { emit(serviceRepository.getServices().data.map { DataHolder(it.name, it.icon) }) }
+    liveData { emit(serviceRepository.getServices()) }
   }
 }
 
 @Suppress("UNCHECKED_CAST")
 class ServiceViewModelFactory(
   owner: SavedStateRegistryOwner,
-  defaultArgs: Bundle?,
-  context: Context?
+  defaultArgs: Bundle?
 ) : AbstractSavedStateViewModelFactory(owner, defaultArgs) {
 
   private val repository: ServiceRepository by lazy { ServiceRepository() }

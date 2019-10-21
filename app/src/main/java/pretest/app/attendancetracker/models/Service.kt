@@ -2,6 +2,7 @@ package pretest.app.attendancetracker.models
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import pretest.app.attendancetracker.adapters.RecyclerViewWithImageBottomLabelItem
 
 data class Service(
   @SerializedName("name")
@@ -10,7 +11,9 @@ data class Service(
   @SerializedName("icon")
   @Expose
   val icon: String
-)
+) {
+  fun toImageWithBottomDataHolder() = RecyclerViewWithImageBottomLabelItem.DataHolder(name, icon)
+}
 
 data class ServicesData(
   @SerializedName("data")

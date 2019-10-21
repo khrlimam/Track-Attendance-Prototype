@@ -1,8 +1,10 @@
 package pretest.app.attendancetracker.repositories
 
-import pretest.app.attendancetracker.models.ServicesData
+import pretest.app.attendancetracker.adapters.RecyclerViewWithImageBottomLabelItem.DataHolder
+import pretest.app.attendancetracker.models.Service
 import pretest.app.attendancetracker.request.endpoints.Services
 
 class ServiceRepository {
-  suspend fun getServices(): ServicesData = Services.get.all()
+  suspend fun getServices(): List<DataHolder> =
+    Services.get.all().data.map(Service::toImageWithBottomDataHolder)
 }
