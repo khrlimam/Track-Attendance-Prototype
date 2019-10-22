@@ -50,3 +50,6 @@ fun Date.toLocalDateWithDayName(): String = SimpleDateFormat("EEE, dd MMM yyy").
 
 @SuppressLint("SimpleDateFormat")
 fun Date.toLocalTime(): String = SimpleDateFormat("HH:mm").format(this)
+
+@SuppressLint("DefaultLocale")
+fun String.titleCase() = this.split(" ").map { it.capitalize() }.joinToString(" ")

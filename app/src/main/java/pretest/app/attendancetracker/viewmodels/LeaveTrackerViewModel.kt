@@ -27,7 +27,7 @@ class LeaveTrackerViewModel(
 }
 
 @Suppress("UNCHECKED_CAST")
-class LeaveTrackkerViewModelFactory(owner: SavedStateRegistryOwner, args: Bundle?) :
+class LeaveTrackerViewModelFactory(owner: SavedStateRegistryOwner, args: Bundle?) :
   AbstractSavedStateViewModelFactory(owner, args) {
 
   private val leaveTrackerRepository: LeaveTrackerRepository by lazy { LeaveTrackerRepository() }

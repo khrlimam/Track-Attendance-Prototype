@@ -20,13 +20,13 @@ import kotlinx.coroutines.launch
 import pretest.app.attendancetracker.R
 import pretest.app.attendancetracker.models.LeaveTracker
 import pretest.app.attendancetracker.viewmodels.LeaveTrackerViewModel
-import pretest.app.attendancetracker.viewmodels.LeaveTrackkerViewModelFactory
+import pretest.app.attendancetracker.viewmodels.LeaveTrackerViewModelFactory
 
 
 class LeaveTrackerFragment : Fragment() {
 
   private val mLeaveTrackerViewModel: LeaveTrackerViewModel by viewModels {
-    LeaveTrackkerViewModelFactory(
+    LeaveTrackerViewModelFactory(
       this,
       arguments
     )
@@ -68,33 +68,33 @@ class LeaveTrackerFragment : Fragment() {
   }
 
   override fun onResume() {
+    mapView?.onResume()
     super.onResume()
-    mapView.onResume()
   }
 
   override fun onPause() {
+    mapView?.onPause()
     super.onPause()
-    mapView.onPause()
   }
 
   override fun onStop() {
+    mapView?.onStop()
     super.onStop()
-    mapView.onStop()
   }
 
   override fun onSaveInstanceState(outState: Bundle) {
+    mapView?.onSaveInstanceState(outState)
     super.onSaveInstanceState(outState)
-    mapView.onSaveInstanceState(outState)
   }
 
   override fun onLowMemory() {
+    mapView?.onLowMemory()
     super.onLowMemory()
-    mapView.onLowMemory()
   }
 
   override fun onDestroy() {
+    mapView?.onDestroy()
     super.onDestroy()
-    mapView.onDestroy()
   }
 
 }

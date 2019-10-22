@@ -20,7 +20,7 @@
     <string name="no_records_found">No records found</string>
     <string name="about_description"><![CDATA[ This app is an example app required for completing after-interview test with specific predefined requirements.
     \nAll the icons used here are credit to <a href="https://www.flaticon.com/authors/itim2101" title="itim2101">itim2101</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> ]]></string>
-    <string name="all_checks_will_present_in_the_map_in_real_time">Waiting for attendance to assign.</string>
+    <string name="waiting_attendance">Waiting for attendance to assign</string>
     <string name="mapbox_access_token">\"pk.eyJ1Ijoia2hhaXJ1bGltYW0iLCJhIjoiY2pjdXB2NmdhMGd6cTJ3b2Z3b3BlYm53ciJ9.hu0mhk2-ELhuHi3dWc3Erg\"</string>
 
 </resources>

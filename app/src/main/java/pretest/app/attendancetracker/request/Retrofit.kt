@@ -6,11 +6,14 @@ import okhttp3.logging.HttpLoggingInterceptor.Level.BASIC
 import pretest.app.attendancetracker.BuildConfig
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
 
 val okHttpClient by lazy {
   OkHttpClient.Builder()
     .addInterceptor(HttpLoggingInterceptor().apply { level = BASIC })
+    .connectTimeout(1, TimeUnit.MINUTES)
+    .readTimeout(1, TimeUnit.MINUTES)
     .build()
 }
 

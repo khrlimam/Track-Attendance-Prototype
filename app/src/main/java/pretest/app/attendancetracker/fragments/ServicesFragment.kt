@@ -1,5 +1,6 @@
 package pretest.app.attendancetracker.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,16 +8,17 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.android.synthetic.main.loading_data_shimmer.*
 import kotlinx.android.synthetic.main.recyclerview.*
 import pretest.app.attendancetracker.R
 import pretest.app.attendancetracker.adapters.RecyclerViewWithImageBottomLabelItem
+import pretest.app.attendancetracker.models.MainActivityNavigationState
 import pretest.app.attendancetracker.uis.SpacesItemDecoration
-import pretest.app.attendancetracker.utils.Statics
 import pretest.app.attendancetracker.utils.gone
 import pretest.app.attendancetracker.utils.visible
+import pretest.app.attendancetracker.viewmodels.MainActivityViewModel
 import pretest.app.attendancetracker.viewmodels.ServiceViewModelFactory
 import pretest.app.attendancetracker.viewmodels.ServicesViewModel
 
@@ -29,9 +31,17 @@ class ServicesFragment : Fragment() {
     )
   }
 
+  private var mMainActivityViewModel: MainActivityViewModel? = null
   private val mData = mutableListOf<RecyclerViewWithImageBottomLabelItem.DataHolder>()
+  @SuppressLint("DefaultLocale")
   private val mAdapter = RecyclerViewWithImageBottomLabelItem(mData) {
-    findNavController().navigate(R.id.leaveTrackerFragment, null, Statics.fadeInFadeOutTransition)
+    mMainActivityViewModel?.updatePage(
+      MainActivityNavigationState(
+        mData[it].labelBottom,
+        mData[it].labelBottom,
+        0
+      )
+    )
   }
 
   override fun onCreateView(
@@ -43,6 +53,7 @@ class ServicesFragment : Fragment() {
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
     loadingStart()
+    mMainActivityViewModel = activity?.let { ViewModelProviders.of(it).get(MainActivityViewModel::class.java) }
     recyclerview.adapter = mAdapter
     recyclerview.layoutManager = GridLayoutManager(activity?.applicationContext, 2)
     recyclerview.addItemDecoration(SpacesItemDecoration(2, 50, true))

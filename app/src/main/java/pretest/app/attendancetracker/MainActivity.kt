@@ -1,7 +1,7 @@
 package pretest.app.attendancetracker
 
+import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
@@ -42,29 +42,23 @@ class MainActivity : GuardActivity() {
   }
 
   private fun changePage(title: String, page: Int, menuPosition: Int) {
-    tvPageTitle.text = title
+    tvPageTitle.text = title.titleCase()
     bottomTabMenu.getTabAt(menuPosition)?.select()
     navController.navigate(page, null, Statics.fadeInFadeOutTransition)
   }
 
+  @SuppressLint("DefaultLocale")
   private fun observeNavStateChange() = Observer<MainActivityNavigationState> {
     etSearch.gone()
-    when (it.bottomMenuSelected) {
-      getString(R.string.services) -> {
+    when (it.bottomMenuSelected.toLowerCase()) {
+      getString(R.string.services).toLowerCase() -> {
         etSearch.visible()
-        changePage(
-          it.pageTitle,
-          R.id.servicesFragment,
-          it.menuPosition
-        )
+        changePage(it.pageTitle, R.id.servicesFragment, it.menuPosition)
       }
-      getString(R.string.approvals) -> changePage(
-        it.pageTitle,
-        R.id.approvalsFragment,
-        it.menuPosition
-      )
-      getString(R.string.about) -> changePage(it.pageTitle, R.id.aboutFragment, it.menuPosition)
-      getString(R.string.feeds) -> changePage(it.pageTitle, R.id.feedsFragment, it.menuPosition)
+      getString(R.string.approvals).toLowerCase() -> changePage(it.pageTitle, R.id.approvalsFragment, it.menuPosition)
+      getString(R.string.about).toLowerCase() -> changePage(it.pageTitle, R.id.aboutFragment, it.menuPosition)
+      getString(R.string.feeds).toLowerCase() -> changePage(it.pageTitle, R.id.feedsFragment, it.menuPosition)
+      getString(R.string.leave_tracker).toLowerCase() -> changePage(it.pageTitle, R.id.leaveTrackerFragment, it.menuPosition)
     }
   }
 
@@ -74,7 +68,6 @@ class MainActivity : GuardActivity() {
   }
 
   override fun onOptionsItemSelected(item: MenuItem): Boolean {
-    Log.i(localClassName, "onoptionitem selected")
     return when (item.itemId) {
       R.id.menu_logout -> {
         logout()
