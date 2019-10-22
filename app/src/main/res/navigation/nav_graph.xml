@@ -7,7 +7,11 @@
     <fragment
         android:id="@+id/servicesFragment"
         android:name="pretest.app.attendancetracker.fragments.ServicesFragment"
-        android:label="ServicesFragment" />
+        android:label="ServicesFragment" >
+        <action
+            android:id="@+id/action_servicesFragment_to_leaveTrackerFragment"
+            app:destination="@id/leaveTrackerFragment" />
+    </fragment>
     <fragment
         android:id="@+id/approvalsFragment"
         android:name="pretest.app.attendancetracker.fragments.ApprovalsFragment"
@@ -20,4 +24,8 @@
         android:id="@+id/feedsFragment"
         android:name="pretest.app.attendancetracker.fragments.FeedsFragment"
         android:label="FeedsFragment" />
+    <fragment
+        android:id="@+id/leaveTrackerFragment"
+        android:name="pretest.app.attendancetracker.fragments.LeaveTrackerFragment"
+        android:label="LeaveTrackerFragment" />
 </navigation>

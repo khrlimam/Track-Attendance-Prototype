@@ -3,9 +3,8 @@ package pretest.app.attendancetracker
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import pretest.app.attendancetracker.auth.auth0.Auth0LoginResult
@@ -15,8 +14,6 @@ import pretest.app.attendancetracker.utils.GsonDefault
 import pretest.app.attendancetracker.utils.Statics.PROFILE_INFO
 import pretest.app.attendancetracker.utils.appPreferences
 import pretest.app.attendancetracker.utils.toast
-import pretest.app.attendancetracker.viewmodels.Auth0ProviderFactory
-import pretest.app.attendancetracker.viewmodels.AuthViewModel
 
 
 class Login : GuardActivity() {
@@ -27,6 +24,8 @@ class Login : GuardActivity() {
     mAuthViewModel.profileInfo.observe(this, observeProfileInfoState())
     mAuthViewModel.loginResult.observe(this, observeLoginResultState())
     mAuthViewModel.validCredential.observe(this, observeValidCredential())
+    btnLogin.setOnClickListener(login())
+    btnSignup.setOnClickListener(login())
   }
 
   private fun observeValidCredential(): Observer<in Boolean> = Observer { isValid ->
@@ -36,7 +35,7 @@ class Login : GuardActivity() {
     } else toast("Your session is no longer valid. Please login")
   }
 
-  fun login(view: View) {
+  fun login(): (View) -> Unit = {
     GlobalScope.launch { mAuthViewModel.login() }
   }
 

@@ -51,12 +51,12 @@
         tools:layout_editor_absoluteX="30dp">
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnLogin"
             style="@style/Round.Button.Success"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_weight="1"
-            android:onClick="login"
             android:text="@string/sign_in" />
 
         <Space
@@ -64,9 +64,9 @@
             android:layout_height="wrap_content" />
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSignup"
             style="@style/Round.Button.Primary"
             android:layout_width="0dp"
-            android:onClick="login"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:layout_weight="1"

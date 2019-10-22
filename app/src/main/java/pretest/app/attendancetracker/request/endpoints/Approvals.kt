@@ -15,6 +15,6 @@ interface Approvals {
   suspend fun from(@Path("username") username: String, @Query("status") status: String): ApprovalsData
 
   companion object {
-    val get by lazy { client.create(Approvals::class.java) }
+    val get: Approvals by lazy { client.create(Approvals::class.java) }
   }
 }

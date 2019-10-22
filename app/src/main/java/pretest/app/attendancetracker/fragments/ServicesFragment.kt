@@ -7,12 +7,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.android.synthetic.main.loading_data_shimmer.*
 import kotlinx.android.synthetic.main.recyclerview.*
 import pretest.app.attendancetracker.R
 import pretest.app.attendancetracker.adapters.RecyclerViewWithImageBottomLabelItem
 import pretest.app.attendancetracker.uis.SpacesItemDecoration
+import pretest.app.attendancetracker.utils.Statics
 import pretest.app.attendancetracker.utils.gone
 import pretest.app.attendancetracker.utils.visible
 import pretest.app.attendancetracker.viewmodels.ServiceViewModelFactory
@@ -28,8 +30,9 @@ class ServicesFragment : Fragment() {
   }
 
   private val mData = mutableListOf<RecyclerViewWithImageBottomLabelItem.DataHolder>()
-  private val mAdapter =
-    RecyclerViewWithImageBottomLabelItem(mData)
+  private val mAdapter = RecyclerViewWithImageBottomLabelItem(mData) {
+    findNavController().navigate(R.id.leaveTrackerFragment, null, Statics.fadeInFadeOutTransition)
+  }
 
   override fun onCreateView(
     inflater: LayoutInflater,

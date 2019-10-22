@@ -12,7 +12,7 @@ interface Services {
   suspend fun all(): ServicesData
 
   companion object {
-    val get by lazy { client.create(Services::class.java) }
+    val get: Services by lazy { client.create(Services::class.java) }
   }
 
 }

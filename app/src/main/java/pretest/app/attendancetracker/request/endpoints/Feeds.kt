@@ -9,7 +9,7 @@ interface Feeds {
   suspend fun all(): FeedsData
 
   companion object {
-    val get by lazy { client.create(Feeds::class.java) }
+    val get: Feeds by lazy { client.create(Feeds::class.java) }
   }
 
 }
