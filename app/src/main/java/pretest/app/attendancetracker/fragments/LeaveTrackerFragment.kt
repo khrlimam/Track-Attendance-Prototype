@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.mapbox.mapboxsdk.Mapbox
 import com.mapbox.mapboxsdk.annotations.MarkerOptions
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory
@@ -21,6 +22,7 @@ import pretest.app.attendancetracker.R
 import pretest.app.attendancetracker.models.LeaveTracker
 import pretest.app.attendancetracker.viewmodels.LeaveTrackerViewModel
 import pretest.app.attendancetracker.viewmodels.LeaveTrackerViewModelFactory
+import pretest.app.attendancetracker.viewmodels.MainActivityViewModel
 
 
 class LeaveTrackerFragment : Fragment() {
@@ -53,17 +55,19 @@ class LeaveTrackerFragment : Fragment() {
       mMapBox = it
       it.setStyle(Style.MAPBOX_STREETS)
     }
-    GlobalScope.launch { mLeaveTrackerViewModel.getAllLeaveTrackers() }
+    activity?.let { ViewModelProviders.of(it).get(MainActivityViewModel::class.java) }
+      ?.returnHomeOnBackPressed(true)
+    mLeaveTrackerViewModel.leaveTracker.observe(this, observeLeaveTracker())
   }
 
   override fun onActivityCreated(savedInstanceState: Bundle?) {
     super.onActivityCreated(savedInstanceState)
-    mLeaveTrackerViewModel.leaveTracker.observe(this, observeLeaveTracker())
+    GlobalScope.launch { mLeaveTrackerViewModel.getAllLeaveTrackers() }
   }
 
   private fun observeLeaveTracker(): Observer<in LeaveTracker> = Observer {
     val position = LatLng(it.lat, it._long)
-    mMapBox?.addMarker(MarkerOptions().position(position).title(it.reason))
+    mMapBox?.addMarker(MarkerOptions().position(position).title(it.name).snippet(it.reason))
     mMapBox?.animateCamera(CameraUpdateFactory.newLatLngZoom(position, 10.0))
   }
 
@@ -95,6 +99,11 @@ class LeaveTrackerFragment : Fragment() {
   override fun onDestroy() {
     mapView?.onDestroy()
     super.onDestroy()
+  }
+
+  override fun onStart() {
+    mapView?.onStart()
+    super.onStart()
   }
 
 }

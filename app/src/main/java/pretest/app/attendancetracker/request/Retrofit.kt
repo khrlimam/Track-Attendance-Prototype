@@ -12,8 +12,8 @@ import java.util.concurrent.TimeUnit
 val okHttpClient by lazy {
   OkHttpClient.Builder()
     .addInterceptor(HttpLoggingInterceptor().apply { level = BASIC })
-    .connectTimeout(1, TimeUnit.MINUTES)
-    .readTimeout(1, TimeUnit.MINUTES)
+    .connectTimeout(10, TimeUnit.MINUTES)
+    .readTimeout(10, TimeUnit.MINUTES)
     .build()
 }
 

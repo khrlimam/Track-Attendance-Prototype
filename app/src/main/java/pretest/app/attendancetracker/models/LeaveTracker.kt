@@ -39,7 +39,10 @@ data class LeaveTracker(
   val present: Boolean,
   @SerializedName("reason")
   @Expose
-  val reason: String
+  val reason: String,
+  @SerializedName("name")
+  @Expose
+  val name: String
 )
 
 data class LeaveTrackersData(

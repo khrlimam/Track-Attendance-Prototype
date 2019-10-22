@@ -17,8 +17,8 @@ import pretest.app.attendancetracker.viewmodels.MainActivityViewModel
 class MainActivity : GuardActivity() {
 
   private val mViewModel: MainActivityViewModel by viewModels()
-
   lateinit var navController: NavController
+  private var returnHome: Boolean? = null
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -26,12 +26,13 @@ class MainActivity : GuardActivity() {
     navController = Navigation.findNavController(this, R.id.content)
     setSupportActionBar(toolbar)
     setUpBottomTabMenu()
-    initModelObserver()
+    initNavStateChangeObserver()
     getUserInfo().pictureUrl?.let { ivUserPicture.setImageFrom(it) }
   }
 
-  private fun initModelObserver() {
+  private fun initNavStateChangeObserver() {
     mViewModel.navigationState.observe(this, observeNavStateChange())
+    mViewModel.returnHome.observe(this, Observer { returnHome = it })
   }
 
   private fun setUpBottomTabMenu() {
@@ -55,11 +56,37 @@ class MainActivity : GuardActivity() {
         etSearch.visible()
         changePage(it.pageTitle, R.id.servicesFragment, it.menuPosition)
       }
-      getString(R.string.approvals).toLowerCase() -> changePage(it.pageTitle, R.id.approvalsFragment, it.menuPosition)
-      getString(R.string.about).toLowerCase() -> changePage(it.pageTitle, R.id.aboutFragment, it.menuPosition)
-      getString(R.string.feeds).toLowerCase() -> changePage(it.pageTitle, R.id.feedsFragment, it.menuPosition)
-      getString(R.string.leave_tracker).toLowerCase() -> changePage(it.pageTitle, R.id.leaveTrackerFragment, it.menuPosition)
+      getString(R.string.approvals).toLowerCase() -> changePage(
+        it.pageTitle,
+        R.id.approvalsFragment,
+        it.menuPosition
+      )
+      getString(R.string.about).toLowerCase() -> changePage(
+        it.pageTitle,
+        R.id.aboutFragment,
+        it.menuPosition
+      )
+      getString(R.string.feeds).toLowerCase() -> changePage(
+        it.pageTitle,
+        R.id.feedsFragment,
+        it.menuPosition
+      )
+      getString(R.string.leave_tracker).toLowerCase() -> changePage(
+        it.pageTitle,
+        R.id.leaveTrackerFragment,
+        it.menuPosition
+      )
     }
+  }
+
+  override fun onBackPressed() {
+    returnHome?.let {
+      if (it) {
+        val menu = getString(R.string.services)
+        mViewModel.updatePage(MainActivityNavigationState(menu, menu, 0))
+        mViewModel.returnHomeOnBackPressed(false)
+      } else super.onBackPressed()
+    } ?: super.onBackPressed()
   }
 
   override fun onCreateOptionsMenu(menu: Menu?): Boolean {
