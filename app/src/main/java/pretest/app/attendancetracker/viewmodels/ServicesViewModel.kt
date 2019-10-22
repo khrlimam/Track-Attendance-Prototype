@@ -7,9 +7,13 @@ import pretest.app.attendancetracker.adapters.RecyclerViewWithImageBottomLabelIt
 import pretest.app.attendancetracker.repositories.ServiceRepository
 
 class ServicesViewModel(
-  val savedStateHandle: SavedStateHandle,
   private val serviceRepository: ServiceRepository
 ) : ViewModel() {
+
+  constructor(
+    savedStateHandle: SavedStateHandle,
+    serviceRepository: ServiceRepository
+  ) : this(serviceRepository)
 
   val servicesMenu: LiveData<List<DataHolder>> by lazy {
     liveData { emit(serviceRepository.getServices()) }

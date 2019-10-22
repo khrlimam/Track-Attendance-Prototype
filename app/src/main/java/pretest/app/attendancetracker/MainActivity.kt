@@ -51,9 +51,11 @@ class MainActivity : GuardActivity() {
   @SuppressLint("DefaultLocale")
   private fun observeNavStateChange() = Observer<MainActivityNavigationState> {
     etSearch.gone()
+    mViewModel.returnHomeOnBackPressed(true)
     when (it.bottomMenuSelected.toLowerCase()) {
       getString(R.string.services).toLowerCase() -> {
         etSearch.visible()
+        mViewModel.returnHomeOnBackPressed(false)
         changePage(it.pageTitle, R.id.servicesFragment, it.menuPosition)
       }
       getString(R.string.approvals).toLowerCase() -> changePage(

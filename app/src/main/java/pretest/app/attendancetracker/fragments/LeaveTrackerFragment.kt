@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import com.mapbox.mapboxsdk.Mapbox
 import com.mapbox.mapboxsdk.annotations.MarkerOptions
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory
@@ -22,7 +21,6 @@ import pretest.app.attendancetracker.R
 import pretest.app.attendancetracker.models.LeaveTracker
 import pretest.app.attendancetracker.viewmodels.LeaveTrackerViewModel
 import pretest.app.attendancetracker.viewmodels.LeaveTrackerViewModelFactory
-import pretest.app.attendancetracker.viewmodels.MainActivityViewModel
 
 
 class LeaveTrackerFragment : Fragment() {
@@ -55,8 +53,6 @@ class LeaveTrackerFragment : Fragment() {
       mMapBox = it
       it.setStyle(Style.MAPBOX_STREETS)
     }
-    activity?.let { ViewModelProviders.of(it).get(MainActivityViewModel::class.java) }
-      ?.returnHomeOnBackPressed(true)
     mLeaveTrackerViewModel.leaveTracker.observe(this, observeLeaveTracker())
   }
 

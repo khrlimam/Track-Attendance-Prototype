@@ -10,9 +10,13 @@ import pretest.app.attendancetracker.adapters.RecyclerViewWithMediaCardItem.Data
 import pretest.app.attendancetracker.repositories.ApprovalsRepository
 
 class ApprovalsViewModel(
-  savedStateHandle: SavedStateHandle,
   private val repository: ApprovalsRepository
 ) : ViewModel() {
+
+  constructor(
+    savedStateHandle: SavedStateHandle,
+    repository: ApprovalsRepository
+  ) : this(repository)
 
   val pendingApprovals: MutableLiveData<List<DataHolder>> by lazy { MutableLiveData<List<DataHolder>>() }
   val approvedApprovals: MutableLiveData<List<DataHolder>> by lazy { MutableLiveData<List<DataHolder>>() }

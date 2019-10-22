@@ -11,9 +11,14 @@ import pretest.app.attendancetracker.models.LeaveTracker
 import pretest.app.attendancetracker.repositories.LeaveTrackerRepository
 
 class LeaveTrackerViewModel(
-  val savedStateHandle: SavedStateHandle,
   private val leaveTrackerRepository: LeaveTrackerRepository
 ) : ViewModel() {
+
+  constructor(
+    savedStateHandle: SavedStateHandle,
+    leaveTrackerRepository: LeaveTrackerRepository
+  ) : this(leaveTrackerRepository)
+
   val leaveTracker: MutableLiveData<LeaveTracker> by lazy { MutableLiveData<LeaveTracker>() }
 
   suspend fun getAllLeaveTrackers() {
