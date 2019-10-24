@@ -11,18 +11,27 @@ import pretest.app.attendancetracker.models.ProfileInfo
 
 class AuthViewModel(private val provider: AuthenticationProvider) : ViewModel() {
 
-  val credential: MutableLiveData<Credential?> by lazy { MutableLiveData<Credential?>() }
-  val profileInfo: MutableLiveData<ProfileInfo?> by lazy { MutableLiveData<ProfileInfo?>() }
-  val validCredential: LiveData<Boolean> by lazy { liveData { emit(isValidCredential()) } }
-  val loginResult: MutableLiveData<LoginResult> by lazy { MutableLiveData<LoginResult>() }
-  val logoutResult: MutableLiveData<LogoutResult> by lazy { MutableLiveData<LogoutResult>() }
+  private val _credential: MutableLiveData<Credential?> by lazy { MutableLiveData<Credential?>() }
+  val credential: LiveData<Credential?> = _credential
+
+  private val _profileInfo: MutableLiveData<ProfileInfo?> by lazy { MutableLiveData<ProfileInfo?>() }
+  val profileInfo: LiveData<ProfileInfo?> = _profileInfo
+
+  private val _validCredential: LiveData<Boolean> by lazy { liveData { emit(isValidCredential()) } }
+  val validCredential: LiveData<Boolean> = _validCredential
+
+  private val _loginResult: MutableLiveData<LoginResult> by lazy { MutableLiveData<LoginResult>() }
+  val loginResult: LiveData<LoginResult> = _loginResult
+
+  private val _logoutResult: MutableLiveData<LogoutResult> by lazy { MutableLiveData<LogoutResult>() }
+  val logoutResult: LiveData<LogoutResult> = _logoutResult
 
   suspend fun login() {
-    loginResult.postValue(provider.login())
+    _loginResult.postValue(provider.login())
   }
 
   suspend fun logout() {
-    logoutResult.postValue(provider.logout())
+    _logoutResult.postValue(provider.logout())
   }
 
   private suspend fun getCredential(): Credential? {
@@ -34,11 +43,11 @@ class AuthViewModel(private val provider: AuthenticationProvider) : ViewModel() 
   }
 
   suspend fun requestProfileInfo() {
-    profileInfo.postValue(getProfile())
+    _profileInfo.postValue(getProfile())
   }
 
   suspend fun requestUserCredential() {
-    credential.postValue(getCredential())
+    _credential.postValue(getCredential())
   }
 
   private suspend fun isValidCredential(): Boolean {

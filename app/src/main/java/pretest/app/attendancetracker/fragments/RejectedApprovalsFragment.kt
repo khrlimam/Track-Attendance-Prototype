@@ -2,6 +2,7 @@ package pretest.app.attendancetracker.fragments
 
 import androidx.lifecycle.LiveData
 import pretest.app.attendancetracker.adapters.RecyclerViewWithMediaCardItem.DataHolder
+import pretest.app.attendancetracker.request.RequestState
 import pretest.app.attendancetracker.utils.Statics.MOCK_USERNAME
 import pretest.app.attendancetracker.viewmodels.ApprovalsViewModel
 
@@ -20,5 +21,6 @@ class RejectedApprovalsFragment : BaseApprovalsStatusFragment() {
   }
 
   override fun dataToObserve(): LiveData<List<DataHolder>>? = mApprovalsViewModel?.rejectedApprovals
+  override fun requestState(): LiveData<RequestState>? = mApprovalsViewModel?.rejectedRequestState
 
 }

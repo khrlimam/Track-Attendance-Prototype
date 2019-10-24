@@ -1,8 +1,9 @@
 package pretest.app.attendancetracker.repositories
 
+import pretest.app.attendancetracker.datasources.LeaveTrackerDataSource
 import pretest.app.attendancetracker.models.LeaveTracker
-import pretest.app.attendancetracker.request.endpoints.LeaveTrackers
 
-class LeaveTrackerRepository {
-  suspend fun getAllLeaveTracker(): List<LeaveTracker> = LeaveTrackers.get.all().data
+class LeaveTrackerRepository(private val leaveTrackerDataSource: LeaveTrackerDataSource) {
+  suspend fun getAllLeaveTracker(): List<LeaveTracker> =
+    leaveTrackerDataSource.getAllLeaveTrackers()
 }

@@ -19,6 +19,8 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import pretest.app.attendancetracker.R
 import pretest.app.attendancetracker.models.LeaveTracker
+import pretest.app.attendancetracker.request.RequestState
+import pretest.app.attendancetracker.utils.toast
 import pretest.app.attendancetracker.viewmodels.LeaveTrackerViewModel
 import pretest.app.attendancetracker.viewmodels.LeaveTrackerViewModelFactory
 
@@ -53,6 +55,11 @@ class LeaveTrackerFragment : Fragment() {
       mMapBox = it
       it.setStyle(Style.MAPBOX_STREETS)
     }
+    mLeaveTrackerViewModel.requestState.observe(this, Observer {
+      when (it) {
+        is RequestState.StateError -> context?.toast(it.reason)
+      }
+    })
     mLeaveTrackerViewModel.leaveTracker.observe(this, observeLeaveTracker())
   }
 

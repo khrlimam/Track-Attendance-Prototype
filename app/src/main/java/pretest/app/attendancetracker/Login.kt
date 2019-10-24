@@ -35,7 +35,7 @@ class Login : GuardActivity() {
     } else toast("Your session is no longer valid. Please login")
   }
 
-  fun login(): (View) -> Unit = {
+  private fun login(): (View) -> Unit = {
     GlobalScope.launch { mAuthViewModel.login() }
   }
 

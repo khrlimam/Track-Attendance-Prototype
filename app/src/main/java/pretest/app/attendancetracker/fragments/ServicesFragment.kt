@@ -14,9 +14,12 @@ import kotlinx.android.synthetic.main.loading_data_shimmer.*
 import kotlinx.android.synthetic.main.recyclerview.*
 import pretest.app.attendancetracker.R
 import pretest.app.attendancetracker.adapters.RecyclerViewWithImageBottomLabelItem
+import pretest.app.attendancetracker.adapters.RecyclerViewWithImageBottomLabelItem.DataHolder
 import pretest.app.attendancetracker.models.MainActivityNavigationState
+import pretest.app.attendancetracker.request.RequestState
 import pretest.app.attendancetracker.uis.SpacesItemDecoration
 import pretest.app.attendancetracker.utils.gone
+import pretest.app.attendancetracker.utils.toast
 import pretest.app.attendancetracker.utils.visible
 import pretest.app.attendancetracker.viewmodels.MainActivityViewModel
 import pretest.app.attendancetracker.viewmodels.ServiceViewModelFactory
@@ -32,7 +35,7 @@ class ServicesFragment : Fragment() {
   }
 
   private var mMainActivityViewModel: MainActivityViewModel? = null
-  private val mData = mutableListOf<RecyclerViewWithImageBottomLabelItem.DataHolder>()
+  private val mData = mutableListOf<DataHolder>()
   @SuppressLint("DefaultLocale")
   private val mAdapter = RecyclerViewWithImageBottomLabelItem(mData) {
     mMainActivityViewModel?.updatePage(
@@ -52,8 +55,8 @@ class ServicesFragment : Fragment() {
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
-    loadingStart()
-    mMainActivityViewModel = activity?.let { ViewModelProviders.of(it).get(MainActivityViewModel::class.java) }
+    mMainActivityViewModel =
+      activity?.let { ViewModelProviders.of(it).get(MainActivityViewModel::class.java) }
     recyclerview.adapter = mAdapter
     recyclerview.layoutManager = GridLayoutManager(activity?.applicationContext, 2)
     recyclerview.addItemDecoration(SpacesItemDecoration(2, 50, true))
@@ -61,16 +64,28 @@ class ServicesFragment : Fragment() {
 
   override fun onActivityCreated(savedInstanceState: Bundle?) {
     super.onActivityCreated(savedInstanceState)
-    mServicesViewModel.servicesMenu.observe(viewLifecycleOwner, Observer {
-      loadingDone()
-      if (it.isEmpty())
-        notFound.visible()
-      else {
-        recyclerview.visible()
-        mData.addAll(it)
-        mAdapter.notifyDataSetChanged()
+    mServicesViewModel.requestState.observe(this, observeRequestState())
+    mServicesViewModel.servicesMenu.observe(viewLifecycleOwner, observeServicesData())
+  }
+
+  private fun observeRequestState(): Observer<in RequestState> = Observer {
+    when (it) {
+      is RequestState.StateLoading -> {
+        if (it.isLoading) loadingStart()
+        else loadingDone()
       }
-    })
+      is RequestState.StateError -> context?.toast(it.reason)
+    }
+  }
+
+  private fun observeServicesData(): Observer<List<DataHolder>> = Observer {
+    if (it.isEmpty())
+      notFound.visible()
+    else {
+      recyclerview.visible()
+      mData.addAll(it)
+      mAdapter.notifyDataSetChanged()
+    }
   }
 
   private fun loadingStart() {

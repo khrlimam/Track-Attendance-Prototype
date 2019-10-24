@@ -4,7 +4,10 @@ import android.os.Bundle
 import androidx.lifecycle.*
 import androidx.savedstate.SavedStateRegistryOwner
 import pretest.app.attendancetracker.adapters.RecyclerViewWithImageBottomLabelItem.DataHolder
+import pretest.app.attendancetracker.datasources.ServiceNetworkDataSource
 import pretest.app.attendancetracker.repositories.ServiceRepository
+import pretest.app.attendancetracker.request.BaseErrorState
+import pretest.app.attendancetracker.request.RequestState
 
 class ServicesViewModel(
   private val serviceRepository: ServiceRepository
@@ -15,8 +18,19 @@ class ServicesViewModel(
     serviceRepository: ServiceRepository
   ) : this(serviceRepository)
 
+  private val _requestState: MutableLiveData<RequestState> by lazy { MutableLiveData<RequestState>() }
+  val requestState: LiveData<RequestState> = _requestState
+
   val servicesMenu: LiveData<List<DataHolder>> by lazy {
-    liveData { emit(serviceRepository.getServices()) }
+    liveData {
+      try {
+        _requestState.postValue(RequestState.StateLoading(true))
+        emit(serviceRepository.getServices())
+        _requestState.postValue(RequestState.StateLoading(false))
+      } catch (e: Exception) {
+        _requestState.postValue(BaseErrorState(e))
+      }
+    }
   }
 }
 
@@ -26,7 +40,8 @@ class ServiceViewModelFactory(
   defaultArgs: Bundle?
 ) : AbstractSavedStateViewModelFactory(owner, defaultArgs) {
 
-  private val repository: ServiceRepository by lazy { ServiceRepository() }
+  private val servicesNetworkDataSource: ServiceNetworkDataSource by lazy { ServiceNetworkDataSource() }
+  private val repository: ServiceRepository by lazy { ServiceRepository(servicesNetworkDataSource) }
 
   override fun <T : ViewModel?> create(
     key: String,
