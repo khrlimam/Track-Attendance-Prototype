@@ -15,8 +15,6 @@ import com.mapbox.mapboxsdk.geometry.LatLng
 import com.mapbox.mapboxsdk.maps.MapboxMap
 import com.mapbox.mapboxsdk.maps.Style
 import kotlinx.android.synthetic.main.leave_tracker.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import pretest.app.attendancetracker.R
 import pretest.app.attendancetracker.models.LeaveTracker
 import pretest.app.attendancetracker.request.RequestState
@@ -57,7 +55,7 @@ class LeaveTrackerFragment : Fragment() {
     }
     mLeaveTrackerViewModel.requestState.observe(this, Observer {
       when (it) {
-        is RequestState.StateError -> context?.toast(it.reason)
+        is RequestState.Error -> context?.toast(it.reason)
       }
     })
     mLeaveTrackerViewModel.leaveTracker.observe(this, observeLeaveTracker())
@@ -65,7 +63,7 @@ class LeaveTrackerFragment : Fragment() {
 
   override fun onActivityCreated(savedInstanceState: Bundle?) {
     super.onActivityCreated(savedInstanceState)
-    GlobalScope.launch { mLeaveTrackerViewModel.getAllLeaveTrackers() }
+    mLeaveTrackerViewModel.getAllLeaveTrackers()
   }
 
   private fun observeLeaveTracker(): Observer<in LeaveTracker> = Observer {

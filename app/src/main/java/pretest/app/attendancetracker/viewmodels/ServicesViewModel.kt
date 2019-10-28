@@ -24,11 +24,12 @@ class ServicesViewModel(
   val servicesMenu: LiveData<List<DataHolder>> by lazy {
     liveData {
       try {
-        _requestState.postValue(RequestState.StateLoading(true))
+        _requestState.postValue(RequestState.LoadingStart)
         emit(serviceRepository.getServices())
-        _requestState.postValue(RequestState.StateLoading(false))
       } catch (e: Exception) {
         _requestState.postValue(BaseErrorState(e))
+      } finally {
+        _requestState.postValue(RequestState.LoadingFinish)
       }
     }
   }

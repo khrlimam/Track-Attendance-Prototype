@@ -3,6 +3,7 @@ package pretest.app.attendancetracker.viewmodels
 import android.os.Bundle
 import androidx.lifecycle.*
 import androidx.savedstate.SavedStateRegistryOwner
+import kotlinx.coroutines.launch
 import pretest.app.attendancetracker.adapters.RecyclerViewWithMediaCardItem.DataHolder
 import pretest.app.attendancetracker.datasources.ApprovalNetworkDataSource
 import pretest.app.attendancetracker.repositories.ApprovalsRepository
@@ -36,33 +37,42 @@ class ApprovalsViewModel(
   private val _rejectedApprovals: MutableLiveData<List<DataHolder>> by lazy { MutableLiveData<List<DataHolder>>() }
   val rejectedApprovals: LiveData<List<DataHolder>> = _rejectedApprovals
 
-  suspend fun getPendingApprovals(username: String) {
-    try {
-      _pendingRequestState.postValue(RequestState.StateLoading(true))
-      _pendingApprovals.postValue(repository.getPending(username))
-      _pendingRequestState.postValue(RequestState.StateLoading(false))
-    } catch (e: Exception) {
-      _pendingRequestState.postValue(BaseErrorState(e))
+  fun getPendingApprovals(username: String) {
+    viewModelScope.launch {
+      try {
+        _pendingRequestState.postValue(RequestState.LoadingStart)
+        _pendingApprovals.postValue(repository.getPending(username))
+      } catch (e: Exception) {
+        _pendingRequestState.postValue(BaseErrorState(e))
+      } finally {
+        _pendingRequestState.postValue(RequestState.LoadingFinish)
+      }
     }
   }
 
-  suspend fun getApprovedApprovals(username: String) {
-    try {
-      _approvedRequestState.postValue(RequestState.StateLoading(true))
-      _approvedApprovals.postValue(repository.getApproved(username))
-      _approvedRequestState.postValue(RequestState.StateLoading(false))
-    } catch (e: Exception) {
-      _approvedRequestState.postValue(BaseErrorState(e))
+  fun getApprovedApprovals(username: String) {
+    viewModelScope.launch {
+      try {
+        _approvedRequestState.postValue(RequestState.LoadingStart)
+        _approvedApprovals.postValue(repository.getApproved(username))
+      } catch (e: Exception) {
+        _approvedRequestState.postValue(BaseErrorState(e))
+      } finally {
+        _approvedRequestState.postValue(RequestState.LoadingFinish)
+      }
     }
   }
 
-  suspend fun getRejectedApprovals(username: String) {
-    try {
-      _rejectedRequestState.postValue(RequestState.StateLoading(true))
-      _rejectedApprovals.postValue(repository.getRejected(username))
-      _rejectedRequestState.postValue(RequestState.StateLoading(false))
-    } catch (e: Exception) {
-      _rejectedRequestState.postValue(BaseErrorState(e))
+  fun getRejectedApprovals(username: String) {
+    viewModelScope.launch {
+      try {
+        _rejectedRequestState.postValue(RequestState.LoadingStart)
+        _rejectedApprovals.postValue(repository.getRejected(username))
+      } catch (e: Exception) {
+        _rejectedRequestState.postValue(BaseErrorState(e))
+      }finally {
+        _rejectedRequestState.postValue(RequestState.LoadingFinish)
+      }
     }
   }
 

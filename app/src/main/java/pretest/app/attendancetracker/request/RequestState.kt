@@ -1,10 +1,11 @@
 package pretest.app.attendancetracker.request
 
 sealed class RequestState {
-  data class StateLoading(val isLoading: Boolean) : RequestState()
-  open class StateError(open val reason: String = "") : RequestState()
+  object LoadingStart : RequestState()
+  object LoadingFinish : RequestState()
+  open class Error(open val reason: String = "") : RequestState()
 }
 
-class BaseErrorState(private val e: Exception) : RequestState.StateError() {
+class BaseErrorState(private val e: Exception) : RequestState.Error() {
   override val reason = "Error occured. Reason: ${e.message}"
 }

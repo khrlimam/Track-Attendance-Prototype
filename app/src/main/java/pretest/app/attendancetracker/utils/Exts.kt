@@ -31,11 +31,11 @@ fun ImageView.setImageFrom(url: String) {
   Glide.with(context).load(url).into(this)
 }
 
+fun Context.userInfoSerialized(): String =
+  appPreferences().getString(Statics.PROFILE_INFO, "") ?: ""
+
 fun Context.getUserInfo(): ProfileInfo {
-  return GsonDefault.transform.fromJson(
-    appPreferences().getString(Statics.PROFILE_INFO, ""),
-    ProfileInfo::class.java
-  )
+  return GsonDefault.transform.fromJson(userInfoSerialized(), ProfileInfo::class.java)
 }
 
 @SuppressLint("SimpleDateFormat")

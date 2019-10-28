@@ -5,8 +5,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import pretest.app.attendancetracker.auth.auth0.Auth0LoginResult
 import pretest.app.attendancetracker.contracts.LoginResult
 import pretest.app.attendancetracker.models.ProfileInfo
@@ -14,6 +12,7 @@ import pretest.app.attendancetracker.utils.GsonDefault
 import pretest.app.attendancetracker.utils.Statics.PROFILE_INFO
 import pretest.app.attendancetracker.utils.appPreferences
 import pretest.app.attendancetracker.utils.toast
+import pretest.app.attendancetracker.utils.userInfoSerialized
 
 
 class Login : GuardActivity() {
@@ -36,7 +35,7 @@ class Login : GuardActivity() {
   }
 
   private fun login(): (View) -> Unit = {
-    GlobalScope.launch { mAuthViewModel.login() }
+    mAuthViewModel.login()
   }
 
   private fun observeProfileInfoState() = Observer<ProfileInfo?> {
@@ -47,16 +46,17 @@ class Login : GuardActivity() {
   }
 
   private fun redirectToMainActivity() {
-    startActivity(Intent(this, MainActivity::class.java))
-    finish()
+    if (userInfoSerialized().isEmpty()) mAuthViewModel.requestProfileInfo()
+    else {
+      startActivity(Intent(this, MainActivity::class.java))
+      finish()
+    }
   }
 
   private fun observeLoginResultState() = Observer<LoginResult> {
     when (val result = it as Auth0LoginResult) {
       is Auth0LoginResult.Auth0LoginFailed -> toast(result.exception.message)
-      is Auth0LoginResult.Auth0LoginSucceed -> {
-        GlobalScope.launch { mAuthViewModel.requestProfileInfo() }
-      }
+      is Auth0LoginResult.Auth0LoginSucceed -> mAuthViewModel.requestProfileInfo()
       is Auth0LoginResult.Auth0PermissionNotGranted -> result.dialog.show()
     }
   }

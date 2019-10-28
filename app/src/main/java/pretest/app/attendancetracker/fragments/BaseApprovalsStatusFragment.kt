@@ -57,11 +57,9 @@ abstract class BaseApprovalsStatusFragment : Fragment() {
 
   private fun observeNetworkRequestSTate(): Observer<in RequestState> = Observer {
     when (it) {
-      is RequestState.StateLoading -> {
-        if (it.isLoading) loadingStart()
-        else loadingDone()
-      }
-      is RequestState.StateError -> context?.toast(it.reason)
+      is RequestState.LoadingStart -> loadingStart()
+      is RequestState.LoadingFinish -> loadingDone()
+      is RequestState.Error -> context?.toast(it.reason)
     }
   }
 

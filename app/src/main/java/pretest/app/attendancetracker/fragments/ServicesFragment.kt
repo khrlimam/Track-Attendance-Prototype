@@ -55,8 +55,9 @@ class ServicesFragment : Fragment() {
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
-    mMainActivityViewModel =
-      activity?.let { ViewModelProviders.of(it).get(MainActivityViewModel::class.java) }
+    mMainActivityViewModel = activity?.let {
+      ViewModelProviders.of(it).get(MainActivityViewModel::class.java)
+    }
     recyclerview.adapter = mAdapter
     recyclerview.layoutManager = GridLayoutManager(activity?.applicationContext, 2)
     recyclerview.addItemDecoration(SpacesItemDecoration(2, 50, true))
@@ -70,11 +71,9 @@ class ServicesFragment : Fragment() {
 
   private fun observeRequestState(): Observer<in RequestState> = Observer {
     when (it) {
-      is RequestState.StateLoading -> {
-        if (it.isLoading) loadingStart()
-        else loadingDone()
-      }
-      is RequestState.StateError -> context?.toast(it.reason)
+      is RequestState.LoadingStart -> loadingStart()
+      is RequestState.LoadingFinish -> loadingDone()
+      is RequestState.Error -> context?.toast(it.reason)
     }
   }
 

@@ -2,6 +2,7 @@ package pretest.app.attendancetracker.viewmodels
 
 import android.app.Activity
 import androidx.lifecycle.*
+import kotlinx.coroutines.launch
 import pretest.app.attendancetracker.auth.auth0.Auth0AuthenticationProvider
 import pretest.app.attendancetracker.contracts.AuthenticationProvider
 import pretest.app.attendancetracker.contracts.LoginResult
@@ -26,12 +27,12 @@ class AuthViewModel(private val provider: AuthenticationProvider) : ViewModel() 
   private val _logoutResult: MutableLiveData<LogoutResult> by lazy { MutableLiveData<LogoutResult>() }
   val logoutResult: LiveData<LogoutResult> = _logoutResult
 
-  suspend fun login() {
-    _loginResult.postValue(provider.login())
+  fun login() {
+    viewModelScope.launch { _loginResult.postValue(provider.login()) }
   }
 
-  suspend fun logout() {
-    _logoutResult.postValue(provider.logout())
+  fun logout() {
+    viewModelScope.launch { _logoutResult.postValue(provider.logout()) }
   }
 
   private suspend fun getCredential(): Credential? {
@@ -42,12 +43,12 @@ class AuthViewModel(private val provider: AuthenticationProvider) : ViewModel() 
     return provider.getProfile()
   }
 
-  suspend fun requestProfileInfo() {
-    _profileInfo.postValue(getProfile())
+  fun requestProfileInfo() {
+    viewModelScope.launch { _profileInfo.postValue(getProfile()) }
   }
 
-  suspend fun requestUserCredential() {
-    _credential.postValue(getCredential())
+  fun requestUserCredential() {
+    viewModelScope.launch { _credential.postValue(getCredential()) }
   }
 
   private suspend fun isValidCredential(): Boolean {

@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.lifecycle.*
 import androidx.savedstate.SavedStateRegistryOwner
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import pretest.app.attendancetracker.datasources.LeaveTrackerNetworkDataSource
 import pretest.app.attendancetracker.models.LeaveTracker
 import pretest.app.attendancetracker.repositories.LeaveTrackerRepository
@@ -26,14 +27,17 @@ class LeaveTrackerViewModel(
   private val _leaveTracker: MutableLiveData<LeaveTracker> by lazy { MutableLiveData<LeaveTracker>() }
   val leaveTracker: LiveData<LeaveTracker> = _leaveTracker
 
-  suspend fun getAllLeaveTrackers() {
-    try {
-      _requestState.postValue(RequestState.StateLoading(true))
-      val leaveTrackers = leaveTrackerRepository.getAllLeaveTracker()
-      _requestState.postValue(RequestState.StateLoading(false))
-      simulateAttendanceTracking(leaveTrackers, 5000)
-    } catch (e: Exception) {
-      _requestState.postValue(BaseErrorState(e))
+  fun getAllLeaveTrackers() {
+    viewModelScope.launch {
+      try {
+        _requestState.postValue(RequestState.LoadingStart)
+        val leaveTrackers = leaveTrackerRepository.getAllLeaveTracker()
+        simulateAttendanceTracking(leaveTrackers, 5000)
+      } catch (e: Exception) {
+        _requestState.postValue(BaseErrorState(e))
+      } finally {
+        _requestState.postValue(RequestState.LoadingFinish)
+      }
     }
   }
 
