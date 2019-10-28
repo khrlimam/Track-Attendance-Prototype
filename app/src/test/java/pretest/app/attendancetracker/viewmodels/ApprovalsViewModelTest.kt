@@ -2,7 +2,6 @@ package pretest.app.attendancetracker.viewmodels
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.android.example.livedatabuilder.util.MainCoroutineRule
-import com.example.android.architecture.blueprints.todoapp.LiveDataTestUtil.getValue
 import com.example.android.architecture.blueprints.todoapp.getOrAwaitValue
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert
@@ -75,7 +74,7 @@ class ApprovalsViewModelTest {
       fakeApprovalDataSource.fakeData[user]?.map(Approval::toDataHolder)
     )
 
-    val pendingRequestState = getValue(approvalViewModel.pendingRequestState)
+    val pendingRequestState = approvalViewModel.pendingRequestState.getOrAwaitValue()
     Assert.assertEquals(RequestState.LoadingFinish, pendingRequestState)
   }
 
@@ -94,7 +93,7 @@ class ApprovalsViewModelTest {
       fakeApprovalDataSource.fakeData[user]?.map(Approval::toDataHolder)
     )
 
-    val rejectedRequestState = getValue(approvalViewModel.rejectedRequestState)
+    val rejectedRequestState = approvalViewModel.rejectedRequestState.getOrAwaitValue()
     Assert.assertEquals(RequestState.LoadingFinish, rejectedRequestState)
   }
 
@@ -113,7 +112,7 @@ class ApprovalsViewModelTest {
       fakeApprovalDataSource.fakeData[user]?.map(Approval::toDataHolder)
     )
 
-    val approvedRequestState = getValue(approvalViewModel.approvedRequestState)
+    val approvedRequestState = approvalViewModel.approvedRequestState.getOrAwaitValue()
     Assert.assertEquals(RequestState.LoadingFinish, approvedRequestState)
   }
 
