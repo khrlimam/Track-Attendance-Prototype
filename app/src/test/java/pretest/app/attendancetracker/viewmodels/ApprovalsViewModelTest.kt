@@ -38,10 +38,10 @@ class ApprovalsViewModelTest {
 
   @Test
   fun `fire LoadingStart event when requesting pending data`() {
-    approvalViewModel.getPendingApprovals(FakeApprovalDataSource.GOOD_ATTENDANCE)
     approvalViewModel.pendingRequestState.observeOnce {
       Assert.assertEquals(RequestState.LoadingStart, it)
     }
+    approvalViewModel.getPendingApprovals(FakeApprovalDataSource.GOOD_ATTENDANCE)
   }
 
   @Test
