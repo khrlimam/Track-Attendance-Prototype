@@ -36,11 +36,6 @@ android:
     - sys-img-armeabi-v7a-addon-google_apis-google-$EMULATOR_API_LEVEL
 script:
   - ./gradlew clean :app:test jacocoTestReport
-  - android create avd --force -n test --target $ANDROID_TARGET --abi google_apis/armeabi-v7a
-  - emulator -avd test -no-skin -no-audio -no-window &
-  - android-wait-for-emulator
-  - adb shell setprop dalvik.vm.dexopt-flags v=n,o=v
-  - ./gradlew connectedCheck
 before_install:
   - chmod +x gradlew
 after_success:
