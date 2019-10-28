@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/khrlimam/Track-Attendance-Prototype.svg?branch=master)](https://travis-ci.org/khrlimam/Track-Attendance-Prototype)
-
+[![codecov](https://codecov.io/gh/khrlimam/Track-Attendance-Prototype/branch/master/graph/badge.svg)](https://codecov.io/gh/khrlimam/Track-Attendance-Prototype)
 # Attendance Tracker
 This app is an example app required for completing after-interview test with specific predefined requirements.
 
