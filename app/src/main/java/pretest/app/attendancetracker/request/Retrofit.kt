@@ -17,8 +17,10 @@ val okHttpClient by lazy {
     .build()
 }
 
-val client: Retrofit = Retrofit.Builder()
-  .baseUrl(BuildConfig.BASE_URL)
-  .client(okHttpClient)
-  .addConverterFactory(GsonConverterFactory.create())
-  .build()
+val client: Retrofit by lazy {
+  Retrofit.Builder()
+    .baseUrl(BuildConfig.BASE_URL)
+    .client(okHttpClient)
+    .addConverterFactory(GsonConverterFactory.create())
+    .build()
+}
