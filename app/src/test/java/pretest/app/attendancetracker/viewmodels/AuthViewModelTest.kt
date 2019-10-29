@@ -49,7 +49,7 @@ class AuthViewModelTest : CoroutineBaseRuleTest() {
   }
 
   @Test
-  fun `when login is succeed auth provider must returns valid profileinfo data`() {
+  fun `when login is succeed auth provider must returns valid profileInfo data`() {
     authViewModel.login(LoginMethod.Legacy(USER1, USER1))
     authViewModel.requestProfileInfo()
     val profileInfo = authViewModel.profileInfo.getOrAwaitValue()
