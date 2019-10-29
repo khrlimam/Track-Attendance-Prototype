@@ -28,7 +28,6 @@
         <item name="tabTextAppearance">@style/CapsText.BottomMenu</item>
         <item name="tabTextColor">@color/textInfo</item>
         <item name="tabIndicatorColor">@color/colorAccent</item>
-        <item name="android:fontFamily">sans-serif-thin</item>
         <item name="tabIndicatorGravity">top</item>
         <item name="tabIndicatorFullWidth">false</item>
         <item name="tabIndicatorHeight">3dp</item>
@@ -84,8 +83,7 @@
 
     <style name="CapsText.BottomMenu" parent="CapsText">
         <item name="android:textSize">10sp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:fontFamily">sans-serif-condensed-medium</item>
     </style>
 
     <style name="Round.Button" parent="Widget.MaterialComponents.Button">

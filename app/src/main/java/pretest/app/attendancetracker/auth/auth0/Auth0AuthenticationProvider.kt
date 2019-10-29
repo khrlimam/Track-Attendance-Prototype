@@ -13,12 +13,13 @@ import com.auth0.android.management.UsersAPIClient
 import com.auth0.android.provider.WebAuthProvider
 import com.auth0.android.result.Credentials
 import com.auth0.android.result.UserProfile
-import pretest.app.attendancetracker.utils.Statics
+import pretest.app.attendancetracker.auth.LoginMethod
 import pretest.app.attendancetracker.contracts.AuthenticationProvider
 import pretest.app.attendancetracker.contracts.LoginResult
 import pretest.app.attendancetracker.contracts.LogoutResult
 import pretest.app.attendancetracker.models.Credential
 import pretest.app.attendancetracker.models.ProfileInfo
+import pretest.app.attendancetracker.utils.Statics
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -52,7 +53,7 @@ class Auth0AuthenticationProvider(
     it.resume(credentialsManager.hasValidCredentials())
   }
 
-  override suspend fun login(): LoginResult =
+  override suspend fun login(method: LoginMethod): LoginResult =
     suspendCoroutine<Auth0LoginResult> { continue_ ->
       WebAuthProvider.login(mAuth0)
         .withScheme("demo")

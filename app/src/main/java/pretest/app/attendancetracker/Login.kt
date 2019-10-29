@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.activity_login.*
+import pretest.app.attendancetracker.auth.LoginMethod
 import pretest.app.attendancetracker.auth.auth0.Auth0LoginResult
 import pretest.app.attendancetracker.contracts.LoginResult
 import pretest.app.attendancetracker.models.ProfileInfo
@@ -35,7 +36,7 @@ class Login : GuardActivity() {
   }
 
   private fun login(): (View) -> Unit = {
-    mAuthViewModel.login()
+    mAuthViewModel.login(LoginMethod.ThirdParty)
   }
 
   private fun observeProfileInfoState() = Observer<ProfileInfo?> {

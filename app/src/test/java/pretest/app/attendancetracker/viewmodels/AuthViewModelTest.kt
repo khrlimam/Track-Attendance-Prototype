@@ -1,49 +1,72 @@
 package pretest.app.attendancetracker.viewmodels
 
+import com.example.android.architecture.blueprints.todoapp.getOrAwaitValue
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
+import pretest.app.attendancetracker.CoroutineBaseRuleTest
+import pretest.app.attendancetracker.auth.LoginMethod
+import pretest.app.attendancetracker.fakes.FakeAuthenticationProvider
+import pretest.app.attendancetracker.fakes.FakeAuthenticationProvider.Companion.USER1
+import pretest.app.attendancetracker.fakes.FakeLoginResult
+import pretest.app.attendancetracker.fakes.FakeLogoutResult
+import pretest.app.attendancetracker.utils.observeOnce
 
-import org.junit.Assert.*
+class AuthViewModelTest : CoroutineBaseRuleTest() {
 
-class AuthViewModelTest {
+  private lateinit var authViewModel: AuthViewModel
+  private lateinit var authProvider: FakeAuthenticationProvider
 
   @Before
   fun setUp() {
+    authProvider = FakeAuthenticationProvider()
+    authViewModel = AuthViewModel(authProvider)
   }
 
   @Test
-  fun getCredential() {
+  fun `when given valid credential login must succeed`() {
+    authViewModel.loginResult.observeOnce {
+      Assert.assertEquals(it, FakeLoginResult.LoginSuccess)
+    }
+    authViewModel.login(LoginMethod.Legacy(USER1, USER1))
   }
 
   @Test
-  fun getProfileInfo() {
+  fun `when given invalid credential login must failed`() {
+    authViewModel.loginResult.observeOnce {
+      Assert.assertEquals(it, FakeLoginResult.LoginFailed)
+    }
+    authViewModel.login(LoginMethod.Legacy("invalid", "invalid"))
   }
 
   @Test
-  fun getValidCredential() {
+  fun `when login is succeed auth provider must returns valid credential data`() {
+    authViewModel.login(LoginMethod.Legacy(USER1, USER1))
+    authViewModel.requestUserCredential()
+    val credential = authViewModel.credential.getOrAwaitValue()
+    Assert.assertEquals(credential, FakeAuthenticationProvider.credential[USER1])
   }
 
   @Test
-  fun getLoginResult() {
+  fun `when login is succeed auth provider must returns valid profileinfo data`() {
+    authViewModel.login(LoginMethod.Legacy(USER1, USER1))
+    authViewModel.requestProfileInfo()
+    val profileInfo = authViewModel.profileInfo.getOrAwaitValue()
+    Assert.assertEquals(profileInfo, FakeAuthenticationProvider.profileInfos[USER1])
   }
 
   @Test
-  fun getLogoutResult() {
-  }
-
-  @Test
-  fun login() {
+  fun `when login is succeed credential returned must valid`() {
+    authViewModel.login(LoginMethod.Legacy(USER1, USER1))
+    authViewModel.validCredential.observeOnce {
+      assert(it)
+    }
   }
 
   @Test
   fun logout() {
-  }
-
-  @Test
-  fun requestProfileInfo() {
-  }
-
-  @Test
-  fun requestUserCredential() {
+    authViewModel.logout()
+    val logoutResult = authViewModel.logoutResult.getOrAwaitValue()
+    Assert.assertEquals(logoutResult, FakeLogoutResult.LogoutSuccess)
   }
 }

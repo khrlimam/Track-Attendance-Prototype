@@ -3,6 +3,7 @@ package pretest.app.attendancetracker.viewmodels
 import android.app.Activity
 import androidx.lifecycle.*
 import kotlinx.coroutines.launch
+import pretest.app.attendancetracker.auth.LoginMethod
 import pretest.app.attendancetracker.auth.auth0.Auth0AuthenticationProvider
 import pretest.app.attendancetracker.contracts.AuthenticationProvider
 import pretest.app.attendancetracker.contracts.LoginResult
@@ -27,8 +28,8 @@ class AuthViewModel(private val provider: AuthenticationProvider) : ViewModel() 
   private val _logoutResult: MutableLiveData<LogoutResult> by lazy { MutableLiveData<LogoutResult>() }
   val logoutResult: LiveData<LogoutResult> = _logoutResult
 
-  fun login() {
-    viewModelScope.launch { _loginResult.postValue(provider.login()) }
+  fun login(loginMethod: LoginMethod) {
+    viewModelScope.launch { _loginResult.postValue(provider.login(loginMethod)) }
   }
 
   fun logout() {

@@ -1,29 +1,18 @@
 package pretest.app.attendancetracker.viewmodels
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.android.example.livedatabuilder.util.MainCoroutineRule
 import com.example.android.architecture.blueprints.todoapp.getOrAwaitValue
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
+import pretest.app.attendancetracker.CoroutineBaseRuleTest
 import pretest.app.attendancetracker.fakes.FakeApprovalDataSource
 import pretest.app.attendancetracker.models.Approval
 import pretest.app.attendancetracker.repositories.ApprovalsRepository
 import pretest.app.attendancetracker.request.RequestState
 import pretest.app.attendancetracker.utils.observeOnce
 
-class ApprovalsViewModelTest {
-
-  // Run tasks synchronously
-  @get:Rule
-  val instantTaskExecutorRule = InstantTaskExecutorRule()
-
-  // Sets the main coroutines dispatcher to a TestCoroutineScope for unit testing.
-  @ExperimentalCoroutinesApi
-  @get:Rule
-  var mainCoroutineRule = MainCoroutineRule()
+class ApprovalsViewModelTest : CoroutineBaseRuleTest() {
 
   lateinit var fakeApprovalDataSource: FakeApprovalDataSource
   private lateinit var approvalRepository: ApprovalsRepository
