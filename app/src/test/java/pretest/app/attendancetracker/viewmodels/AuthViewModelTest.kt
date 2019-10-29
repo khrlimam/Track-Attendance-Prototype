@@ -7,6 +7,7 @@ import org.junit.Test
 import pretest.app.attendancetracker.CoroutineBaseRuleTest
 import pretest.app.attendancetracker.auth.LoginMethod
 import pretest.app.attendancetracker.fakes.FakeAuthenticationProvider
+import pretest.app.attendancetracker.fakes.FakeAuthenticationProvider.Companion.DEFAULT_USER
 import pretest.app.attendancetracker.fakes.FakeAuthenticationProvider.Companion.USER1
 import pretest.app.attendancetracker.fakes.FakeLoginResult
 import pretest.app.attendancetracker.fakes.FakeLogoutResult
@@ -60,6 +61,21 @@ class AuthViewModelTest : CoroutineBaseRuleTest() {
     authViewModel.login(LoginMethod.Legacy(USER1, USER1))
     authViewModel.validCredential.observeOnce {
       assert(it)
+    }
+  }
+
+  @Test
+  fun `when third party login succeed make sure valid credential is retrieved`() {
+    authViewModel.login(LoginMethod.ThirdParty)
+    authViewModel.loginResult.observeOnce {
+      when (it) {
+        is FakeLoginResult.LoginSuccess -> {
+          authViewModel.requestUserCredential()
+          authViewModel.credential.observeOnce {
+            Assert.assertEquals(it, FakeAuthenticationProvider.credential[DEFAULT_USER])
+          }
+        }
+      }
     }
   }
 

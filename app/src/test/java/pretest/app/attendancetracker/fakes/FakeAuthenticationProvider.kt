@@ -13,6 +13,7 @@ class FakeAuthenticationProvider : AuthenticationProvider {
   companion object {
     const val USER1 = "user1"
     const val USER2 = "user2"
+    const val DEFAULT_USER = USER1
 
     val credential = mapOf(
       USER1 to Credential(
@@ -58,16 +59,26 @@ class FakeAuthenticationProvider : AuthenticationProvider {
       return found.size == 1
     }
 
-    fun getUser(username: String) = users.find { it["username"] == username }
-
   }
 
 
   override suspend fun login(method: LoginMethod): LoginResult {
-    method as LoginMethod.Legacy
-    return if (Auth.login(method.identifier, method.password)) {
+    var username = ""
+    var password = ""
+    when (method) {
+      is LoginMethod.Legacy -> {
+        username = method.identifier
+        password = method.password
+      }
+      is LoginMethod.ThirdParty -> {
+        // simulate third party login using prechoosen username
+        username = DEFAULT_USER
+        password = DEFAULT_USER
+      }
+    }
+    return if (Auth.login(username, password)) {
       // simulate saving credential
-      username = method.identifier
+      this.username = username
       FakeLoginResult.LoginSuccess
     } else FakeLoginResult.LoginFailed
   }
