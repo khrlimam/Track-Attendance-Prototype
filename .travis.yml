@@ -1,6 +1,7 @@
 sudo: false
 language: android
 jdk: oraclejdk8
+dist: trusty
 before_cache:
   - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
@@ -34,10 +35,20 @@ android:
     - sys-img-${ANDROID_ABI}-${ANDROID_TARGET}
     - sys-img-armeabi-v7a-addon-google_apis-google-$ANDROID_API_LEVEL
     - sys-img-armeabi-v7a-addon-google_apis-google-$EMULATOR_API_LEVEL
+
+addons:
+  sonarcloud:
+    organization: "khrlimam"
+    token:
+      secure: "NVHGI6qqmq/Nr5tZHaKObHajhqjvNOG+dzFPXG6c6s9Bu04FNJhTM+Y5zZ84zcXN6IgWGo2Ce4v07E3cWV6saZ2raqmc2ZXReA9Cl72SC3MG7OLtO7XpXTWSsvTEPbCvNVEyuXUn4IRR6matWihPPEXWWxmB5yEhnSN5zPB35fLN2L/OqSLcI6Q8uCPnc2Cgsbpgx/8XZvJfGZ8TA2b2eRGjejbBvi6llSrtoFjtYpKwDA5rfg6M9xy1PQsQ0EdvvJmtp36OIL0yDV/Qtkt2lWr3Baif2G2renORtEuJ0fn/J5o7UbYpttb7RYKu+EnPUfbQ2YAmjy+Wq2h4fZurQeS5jxV/KIT6bk2yE7KNtYzFU4TrM9HCGpgrWYTHUSrGKHkoQc6yJ8+IvZHTW94Yly6i63Y7HDxYr9lUDbhgx/e//59tLt2P/Mo+IXRwbn9qpn1CkZnmxLKJ1BhCz3TJDp5hKedqCKfdRsq66v0ZQj9NjK5jjNlSpphxUO8yilxXcyQsbdbVeZ3/HWIO7+K8kGc6MTp1uxaIg8akoNK9BIoJg/l5YORJM8cz92lI1VzbG30GBKu5eW2SXjCVRCl2gSr9NryKWEjuJ0XEJ4E7DLZ3D5hnUFLuepzwAVr82/jqm+cyGrl0oxwbbvEitL7RVi4WSPTmhMsMBY2ciuzMroY="
+
 script:
   - ./gradlew clean :app:test jacocoTestReport
+  - ./gradlew sonarqube
+
 before_install:
   - chmod +x gradlew
+
 after_success:
   - bash <(curl -s https://codecov.io/bash)
 

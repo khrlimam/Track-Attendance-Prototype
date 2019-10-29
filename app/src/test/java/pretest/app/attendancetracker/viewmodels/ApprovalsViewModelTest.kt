@@ -8,6 +8,7 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import pretest.app.attendancetracker.fakes.FakeApprovalDataSource
 import pretest.app.attendancetracker.models.Approval
 import pretest.app.attendancetracker.repositories.ApprovalsRepository
 import pretest.app.attendancetracker.request.RequestState

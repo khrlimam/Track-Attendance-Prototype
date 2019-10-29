@@ -1,6 +1,5 @@
-package pretest.app.attendancetracker.viewmodels
+package pretest.app.attendancetracker.fakes
 
-import kotlinx.coroutines.delay
 import pretest.app.attendancetracker.datasources.ApprovalDataSource
 import pretest.app.attendancetracker.models.Approval
 
@@ -11,10 +10,8 @@ class FakeApprovalDataSource : ApprovalDataSource {
     const val BAD_ATTENDANCE = "user-test"
   }
 
-  override suspend fun getUserPendingApproval(username: String): List<Approval> {
-    delay(500)
-    return fakeData.getOrDefault(username, emptyList())
-  }
+  override suspend fun getUserPendingApproval(username: String): List<Approval> =
+    fakeData.getOrDefault(username, emptyList())
 
   override suspend fun getUserApprovedApproval(username: String): List<Approval> =
     fakeData.getOrDefault(username, emptyList())
