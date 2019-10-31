@@ -1,6 +1,5 @@
 package pretest.app.attendancetracker.viewmodels
 
-import com.example.android.architecture.blueprints.todoapp.getOrAwaitValue
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert
 import org.junit.Before
@@ -10,6 +9,7 @@ import pretest.app.attendancetracker.fakes.FakeApprovalDataSource
 import pretest.app.attendancetracker.models.Approval
 import pretest.app.attendancetracker.repositories.ApprovalsRepository
 import pretest.app.attendancetracker.request.RequestState
+import pretest.app.attendancetracker.utils.getOrAwaitValue
 import pretest.app.attendancetracker.utils.observeOnce
 
 class ApprovalsViewModelTest : CoroutineBaseRuleTest() {

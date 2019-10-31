@@ -1,6 +1,5 @@
 package pretest.app.attendancetracker.viewmodels
 
-import com.example.android.architecture.blueprints.todoapp.getOrAwaitValue
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -11,6 +10,7 @@ import pretest.app.attendancetracker.fakes.FakeAuthenticationProvider.Companion.
 import pretest.app.attendancetracker.fakes.FakeAuthenticationProvider.Companion.USER1
 import pretest.app.attendancetracker.fakes.FakeLoginResult
 import pretest.app.attendancetracker.fakes.FakeLogoutResult
+import pretest.app.attendancetracker.utils.getOrAwaitValue
 import pretest.app.attendancetracker.utils.observeOnce
 
 class AuthViewModelTest : CoroutineBaseRuleTest() {

@@ -1,9 +1,9 @@
 package pretest.app.attendancetracker
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.android.example.livedatabuilder.util.MainCoroutineRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Rule
+import pretest.app.attendancetracker.utils.MainCoroutineRule
 
 abstract class CoroutineBaseRuleTest {
   // Run tasks synchronously

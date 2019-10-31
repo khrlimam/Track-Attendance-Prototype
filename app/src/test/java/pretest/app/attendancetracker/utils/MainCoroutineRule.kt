@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.example.livedatabuilder.util
+package pretest.app.attendancetracker.utils
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
