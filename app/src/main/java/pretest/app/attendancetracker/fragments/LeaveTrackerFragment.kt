@@ -52,6 +52,17 @@ class LeaveTrackerFragment : Fragment() {
     mapView.getMapAsync {
       mMapBox = it
       it.setStyle(Style.MAPBOX_STREETS)
+      mMapBox?.addOnMapClickListener { latLng ->
+        mLeaveTrackerViewModel.addMarker(
+          LeaveTracker(
+            lat = latLng.latitude,
+            _long = latLng.longitude,
+            reason = latLng.toString(),
+            name = "Coba Koordinat"
+          )
+        )
+        true
+      }
     }
     mLeaveTrackerViewModel.requestState.observe(this, Observer {
       when (it) {

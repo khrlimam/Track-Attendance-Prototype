@@ -41,10 +41,14 @@ class LeaveTrackerViewModel(
     }
   }
 
+  fun addMarker(leaveTracker: LeaveTracker) {
+    _leaveTracker.value = leaveTracker
+  }
+
   private suspend fun simulateAttendanceTracking(data: List<LeaveTracker>, ms: Long) {
     data.forEach {
       delay(ms)
-      _leaveTracker.postValue(it)
+//      _leaveTracker.postValue(it)
     }
   }
 
